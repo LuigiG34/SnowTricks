@@ -20,7 +20,7 @@ class Trick
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
@@ -32,6 +32,10 @@ class Trick
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $id_user = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $id_category = null;
 
     public function getId(): ?int
     {
@@ -106,6 +110,18 @@ class Trick
     public function setIdUser(?User $id_user): self
     {
         $this->id_user = $id_user;
+
+        return $this;
+    }
+
+    public function getIdCategory(): ?Category
+    {
+        return $this->id_category;
+    }
+
+    public function setIdCategory(?Category $id_category): self
+    {
+        $this->id_category = $id_category;
 
         return $this;
     }
