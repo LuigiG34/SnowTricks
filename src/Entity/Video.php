@@ -17,9 +17,10 @@ class Video
     #[ORM\Column(type: Types::TEXT)]
     private ?string $link = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'videos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Trick $id_trick = null;
+
 
     public function getId(): ?int
     {
@@ -49,4 +50,6 @@ class Video
 
         return $this;
     }
+
+
 }

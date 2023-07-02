@@ -17,9 +17,11 @@ class Image
     #[ORM\Column(type: Types::TEXT)]
     private ?string $path = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Trick $id_trick = null;
+
+   
 
     public function getId(): ?int
     {
@@ -49,4 +51,6 @@ class Image
 
         return $this;
     }
+
+ 
 }
