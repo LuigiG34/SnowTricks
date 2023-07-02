@@ -1,0 +1,144 @@
+App\Entity\User:
+  user_1:
+    email: "test@test.com"
+    username: "test"
+    roles: ["ROLE_USER"]
+    password: "test"
+    is_verified: 1
+    image: "/assets/img/profile.png"
+    token_reset: 0
+    created_at: <(new DateTimeImmutable())>
+  user_2:
+    email: "test@test2.com"
+    username: "test2"
+    roles: ["ROLE_USER"]
+    password: "test2"
+    is_verified: 1
+    image: "/assets/img/profile.png" 
+    token_reset: 0
+    created_at: <(new DateTimeImmutable())>
+  user_3:
+    email: "test3@test.com"
+    username: "test3"
+    roles: ["ROLE_USER"]
+    password: "test3"
+    is_verified: 1
+    image: "/assets/img/profile.png" 
+    token_reset: 0
+    created_at: <(new DateTimeImmutable())>
+
+
+App\Entity\Category:
+  category_1:
+    name: "Grabs"
+  category_2:
+    name: "Rotations"
+  category_3:
+    name: "Flips"
+  category_4:
+    name: "Slides"
+
+
+
+App\Entity\Trick:
+  trick_1:
+    name: "Mute"
+    description: "Saisie de la carre frontside de la planche entre les deux pieds avec la main avant."
+    slug: "mute"
+    updated_at: <(new DateTimeImmutable())>
+    created_at: <(new DateTimeImmutable())>
+    category: '@category_1'
+    user: '@user_1'
+  trick_2:
+    name: "360"
+    description: "Trois six pour un tour complet"
+    slug: "360"
+    updated_at: <(new DateTimeImmutable())>
+    created_at: <(new DateTimeImmutable())>
+    category: '@category_2'
+    user: '@user_3'
+  trick_3:
+    name: "Front flip"
+    description: "Rotations en avant."
+    slug: "front-flip"
+    updated_at: <(new DateTimeImmutable())>
+    created_at: <(new DateTimeImmutable())>
+    category: '@category_3'
+    user: '@user_1'
+  trick_4:
+    name: "Tail slide"
+    description: "L'arrière de la planche sur la barre."
+    slug: "tail-slide"
+    updated_at: <(new DateTimeImmutable())>
+    created_at: <(new DateTimeImmutable())>
+    category: '@category_4'
+    user: '@user_2'
+
+
+
+
+App\Entity\Video:
+  video_1:
+    link: "https://www.youtube.com/embed/k6aOWf0LDcQ"
+    trick: '@trick_1'
+  video_111:
+    link: "https://www.youtube.com/embed/k6aOWf0LDcQ"
+    trick: '@trick_1'
+  video_11:
+    link: "https://www.youtube.com/embed/k6aOWf0LDcQ"
+    trick: '@trick_1'
+  video_2:
+    link: "https://youtube.com/embed/SLncsNaU6es"
+    trick: '@trick_2'
+  video_3:
+    link: "https://youtube.com/embed/q9Q90OZCYjw"
+    trick: '@trick_3'
+  video_4:
+    link: "https://youtube.com/embed/tqnEKTFwMrc"
+    trick: '@trick_4'
+
+
+
+
+
+App\Entity\Image:
+  image_1:
+    path: "/uploads/tail-slide.png"
+    trick: '@trick_1'
+  image_11:
+    path: "/uploads/tail-slide2.png"
+    trick: '@trick_1'
+  image_111:
+    path: "/uploads/tail-slide3.png"
+    trick: '@trick_1'
+  image_2:
+    path: "/uploads/front-flip.png"
+    trick: '@trick_2'
+  image_3:
+    path: "/uploads/360.png"
+    trick: '@trick_3'
+  image_4:
+    path: "/uploads/mute.png"
+    trick: '@trick_4'
+
+
+
+App\Entity\Comment:
+  comment_1:
+    content: "Super commentaire 1 !"
+    created_at: <(new DateTimeImmutable())>
+    updated_at: <(new DateTimeImmutable())>
+    user: '@user_2'
+    trick: '@trick_4'
+  comment_2:
+    content: "Super commentaire 2 !"
+    created_at: <(new DateTimeImmutable())>
+    updated_at: <(new DateTimeImmutable())>
+    user: '@user_2'
+    trick: '@trick_3'
+  comment_3:
+    content: "Super commentaire 3 !"
+    created_at: <(new DateTimeImmutable())>
+    updated_at: <(new DateTimeImmutable())>
+    user: '@user_3'
+    trick: '@trick_4'
