@@ -5,7 +5,7 @@ App\Entity\User:
     roles: ["ROLE_USER"]
     password: "test"
     is_verified: 1
-    image: "/assets/img/profile.png"
+    image: "/assets/img/profile.jpg"
     token_reset: 0
     created_at: <(new DateTimeImmutable())>
   user_2:
@@ -14,7 +14,7 @@ App\Entity\User:
     roles: ["ROLE_USER"]
     password: "test2"
     is_verified: 1
-    image: "/assets/img/profile.png" 
+    image: "/assets/img/profile.jpg" 
     token_reset: 0
     created_at: <(new DateTimeImmutable())>
   user_3:
@@ -23,7 +23,7 @@ App\Entity\User:
     roles: ["ROLE_USER"]
     password: "test3"
     is_verified: 1
-    image: "/assets/img/profile.png" 
+    image: "/assets/img/profile.jpg" 
     token_reset: 0
     created_at: <(new DateTimeImmutable())>
 
@@ -287,13 +287,13 @@ App\Entity\Trick:
 
 App\Entity\Video:
   video_1:
-    link: "https://www.youtube.com/embed/k6aOWf0LDcQ"
+    link: "https://www.youtube.com/embed/V9xuy-rVj9w"
     trick: '@trick_1'
   video_111:
     link: "https://www.youtube.com/embed/k6aOWf0LDcQ"
     trick: '@trick_1'
   video_11:
-    link: "https://www.youtube.com/embed/k6aOWf0LDcQ"
+    link: "https://www.youtube.com/embed/SFYYzy0UF-8"
     trick: '@trick_1'
   video_2:
     link: "https://youtube.com/embed/SLncsNaU6es"
@@ -486,3 +486,49 @@ App\Entity\Image:
   image_155:
     path: "/uploads/tail-slide.jpg"
     trick: '@trick_155'
+
+
+
+App\Entity\Comment:
+  comment_1:
+    content: "Super commentaire 1 !"
+    created_at: <(new DateTimeImmutable())>
+    updated_at: <(new DateTimeImmutable())>
+    user: '@user_2'
+    trick: '@trick_1'
+  comment_2:
+    content: "Super commentaire 2 !"
+    created_at: <(new DateTimeImmutable())>
+    updated_at: <(new DateTimeImmutable())>
+    user: '@user_2'
+    trick: '@trick_1'
+  comment_3:
+    content: "Super commentaire 3 !"
+    created_at: <(new DateTimeImmutable())>
+    updated_at: <(new DateTimeImmutable())>
+    user: '@user_3'
+    trick: '@trick_1'
+  comment_11:
+    content: "Super commentaire 4 !"
+    created_at: <(new DateTimeImmutable())>
+    updated_at: <(new DateTimeImmutable())>
+    user: '@user_2'
+    trick: '@trick_1'
+  comment_22:
+    content: "Super commentaire 5 !"
+    created_at: <(new DateTimeImmutable())>
+    updated_at: <(new DateTimeImmutable())>
+    user: '@user_2'
+    trick: '@trick_1'
+  comment_33:
+    content: "Super commentaire 6 !"
+    created_at: <(new DateTimeImmutable())>
+    updated_at: <(new DateTimeImmutable())>
+    user: '@user_3'
+    trick: '@trick_1'
+  comment_333:
+    content: "Super commentaire 7 !"
+    created_at: <(new DateTimeImmutable())>
+    updated_at: <(new DateTimeImmutable())>
+    user: '@user_3'
+    trick: '@trick_1'
