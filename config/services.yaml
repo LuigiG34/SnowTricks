@@ -24,3 +24,13 @@ services:
     # please note that last definitions always *replace* previous ones
     App\DataFixtures\Providers\HashPasswordProvider:
         tags: [ { name: nelmio_alice.faker.provider } ]
+
+    App\EventListener\TimestampableListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+
+    App\EventListener\SluggableListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
