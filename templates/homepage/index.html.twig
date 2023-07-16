@@ -8,11 +8,11 @@
 	<style>
 
 		#bg-img {
-			background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/assets/img/homepage.jpg');
+			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/img/homepage.jpg');
 			background-size: cover;
 			background-repeat: no-repeat;
 			background-position: center;
-			height:90vh;
+			height: 90vh;
 		}
 
 		.img-trick {
@@ -37,56 +37,96 @@
 		</div>
 	</div>
 
-    <div class="container-fluid">
-        <div class="row d-flex align-items-center justify-content-center" id="tricksContainer">
-            {% for trick in tricks %}
-                <div class="col m-4 {% if loop.index > 15 %}d-none{% endif %}">
-                    <div class="card bg-dark shadow" style="width: 18rem;">
-                        <img src="{{ trick.images.first.path }}" class="card-img-top img-trick" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a class="link-light" href="/tricks/{{ trick.slug }}">{{ trick.name }}</a>
-                                {% if app.user %}
-                                    <a class="btn btn-light">Update</a>
-                                    <button class="btn btn-danger">Delete</button>
-                                {% endif %}
-                            </h5>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+	<div class="container-fluid">
+		<div class="row d-flex align-items-center justify-content-center" id="tricksContainer">
+			{% for trick in tricks %}
+				<div class="col m-4">
+					<div class="card bg-dark shadow" style="width: 18rem;">
+						<img src="{{ trick.images.first.path }}" class="card-img-top img-trick" alt="...">
+						<div class="card-body">
+							<h5 class="card-title">
+								<a class="link-light" href="/tricks/{{ trick.slug }}">{{ trick.name }}</a>
+								{% if app.user %}
+									<a class="btn btn-light">
+										<i class="bi bi-gear-fill"></i>
+									</a>
+									<button class="btn btn-danger">
+										<i class="bi bi-trash-fill"></i>
+									</button>
+								{% endif %}
+							</h5>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
 
-        <div class="text-center mt-4">
-            <button id="loadMoreButton" class="btn btn-light">Load More</button>
-        </div>
+		<div class="w-100 d-flex align-items-center justify-content-center">
+			<div id="loadingSpinner" class="spinner-border text-light" role="status">
+				<span class="visually-hidden">Loading...</span>
+			</div>
+		</div>
+
+
+		<div class="text-center mt-4">
+			<button id="loadMoreButton" class="btn btn-light">Load More</button>
+		</div>
 		<div class="d-flex align-items-center justify-content-end w-100">
 			<a href="#tricksContainer">
 				<img src="/assets/img/arrow-up-square-fill.svg">
 			</a>
 		</div>
-		</div>
-    </div>
+	</div>
+</div>
 
-    <script>
-        var loadMoreButton = document.getElementById("loadMoreButton");
-        var tricksContainer = document.getElementById("tricksContainer");
-        var hiddenTricks = Array.from(tricksContainer.getElementsByClassName("d-none"));
+<script>
+let offset = {{ tricks| length }};
+const limit = 5;
+document.getElementById('loadingSpinner').style.display = 'none';
 
-        loadMoreButton.addEventListener("click", function () {
-            showNextBatch();
-        });
 
-        function showNextBatch() {
-            var batchSize = 5;
-            for (var i = 0; i < batchSize; i++) {
-                if (hiddenTricks.length === 0) {
-                    loadMoreButton.style.display = 'none';
-                    return;
-                }
-                hiddenTricks.shift().classList.remove("d-none");
-            }
+function loadMoreTricks() { // Show the loading spinner
+    document.getElementById('loadingSpinner').style.display = 'block';
+
+    fetch(`/get-more-tricks/${offset}/${limit}`).then(response => response.json()).then(data => {
+        if (data.length > 0) {
+            const tricksContainer = document.getElementById('tricksContainer');
+            data.forEach(trick => {
+                const trickHTML = `
+                <div class="col m-4">
+                    <div class="card bg-dark shadow" style="width: 18rem;">
+                        <img src="${trick.image}" class="card-img-top img-trick" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a class="link-light" href="/tricks/${trick.slug}">${trick.name}</a>
+                                            {% if app.user %}
+                                                <a class="btn btn-light">
+                                                    <i class="bi bi-gear-fill"></i>
+                                                </a>
+                                                <button class="btn btn-danger">
+                                                    <i class="bi bi-trash-fill"></i>
+                                                </button>
+                                            {% endif %}
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>`;
+                tricksContainer.innerHTML += trickHTML;
+            });
+            offset += data.length;
+        } else { // Disable the "Load More" button if no more tricks are available
+            document.getElementById('loadMoreButton').disabled = true;
         }
-    </script>
 
-{% endblock %}
+        // Hide the loading spinner once the tricks are added
+        document.getElementById('loadingSpinner').style.display = 'none';
+    }).catch(error => {
+        console.error('Error fetching more tricks:', error);
+
+        // Hide the loading spinner in case of an error
+        document.getElementById('loadingSpinner').style.display = 'none';
+    });
+}
+
+document.getElementById('loadMoreButton').addEventListener('click', loadMoreTricks);
+</script>{% endblock %}
