@@ -108,10 +108,14 @@
 
 
 			<hr>
+			{% if app.user %}
 			<form method="POST" action="#" class="d-flex justify-content-center align-items-center w-100 flex-column gap-2">
 				<textarea class="form-control"></textarea>
 				<button class="btn btn-light">Soumettre le commentaire</button>
 			</form>
+			{% else %}
+				<p class="text-light d-flex justify-content-center align-items-center w-100">Veuillez vous connecter <a class="ms-2" href="/login">ici</a></p>
+			{% endif %}
 			<hr>
 
 			<div id="commentsContainer">
@@ -142,22 +146,28 @@
 
 	<script>
 		var loadMoreButton = document.getElementById("loadMoreButton");
-var commentsContainer = document.getElementById("commentsContainer");
-var hiddenComments = Array.from(commentsContainer.getElementsByClassName("d-none"));
+		var commentsContainer = document.getElementById("commentsContainer");
+		var hiddenComments = Array.from(commentsContainer.getElementsByClassName("d-none"));
 
-loadMoreButton.addEventListener("click", function () {
-showNextBatch();
-});
+		
+		if(hiddenComments.length === 0) {
+			loadMoreButton.style.display = 'none';
+			return;
+		}
+				
+		loadMoreButton.addEventListener("click", function () {
+			showNextBatch();
+		});
 
-function showNextBatch() {
-var batchSize = 4;
-for (var i = 0; i < batchSize; i++) {
-if (hiddenComments.length === 0) {
-loadMoreButton.style.display = 'none';
-return;
-}
-hiddenComments.shift().classList.remove("d-none");
-}
-}
+		function showNextBatch() {
+			var batchSize = 4;
+			for (var i = 0; i < batchSize; i++) {
+				if (hiddenComments.length === 0) {
+					loadMoreButton.style.display = 'none';
+					return;
+				}
+				hiddenComments.shift().classList.remove("d-none");
+			}
+		}		
 	</script>
 {% endblock %}

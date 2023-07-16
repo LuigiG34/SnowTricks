@@ -46,6 +46,10 @@
                         <div class="card-body">
                             <h5 class="card-title">
                                 <a class="link-light" href="/tricks/{{ trick.slug }}">{{ trick.name }}</a>
+                                {% if app.user %}
+                                    <a class="btn btn-light">Update</a>
+                                    <button class="btn btn-danger">Delete</button>
+                                {% endif %}
                             </h5>
                         </div>
                     </div>

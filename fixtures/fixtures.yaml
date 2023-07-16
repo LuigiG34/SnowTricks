@@ -3,29 +3,23 @@ App\Entity\User:
     email: "test@test.com"
     username: "test"
     roles: ["ROLE_USER"]
-    password: "test"
-    is_verified: 1
+    password: <hashPassword('test')>
     image: "/assets/img/profile.jpg"
-    token_reset: 0
-    created_at: <(new DateTimeImmutable())>
+    createdAt: <(new DateTimeImmutable())>
   user_2:
     email: "test@test2.com"
     username: "test2"
     roles: ["ROLE_USER"]
-    password: "test2"
-    is_verified: 1
+    password: <hashPassword('test2')>
     image: "/assets/img/profile.jpg" 
-    token_reset: 0
-    created_at: <(new DateTimeImmutable())>
+    createdAt: <(new DateTimeImmutable())>
   user_3:
     email: "test3@test.com"
     username: "test3"
     roles: ["ROLE_USER"]
-    password: "test3"
-    is_verified: 1
+    password: <hashPassword('test3')>
     image: "/assets/img/profile.jpg" 
-    token_reset: 0
-    created_at: <(new DateTimeImmutable())>
+    createdAt: <(new DateTimeImmutable())>
 
 
 App\Entity\Category:
