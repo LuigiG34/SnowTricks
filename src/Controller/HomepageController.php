@@ -16,6 +16,7 @@ class HomepageController extends AbstractController
 
         // Keep only the first 15 tricks
         $firstFifteenTricks = array_slice($all, 0, 15);
+//        dd($firstFifteenTricks);
 
         return $this->render('homepage/index.html.twig', [
             'tricks' => $firstFifteenTricks,

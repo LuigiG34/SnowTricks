@@ -5,21 +5,18 @@ App\Entity\User:
     roles: ["ROLE_USER"]
     password: <hashPassword('test')>
     image: "/assets/img/profile.jpg"
-    createdAt: <(new DateTimeImmutable())>
   user_2:
     email: "test@test2.com"
     username: "test2"
     roles: ["ROLE_USER"]
     password: <hashPassword('test2')>
     image: "/assets/img/profile.jpg" 
-    createdAt: <(new DateTimeImmutable())>
   user_3:
     email: "test3@test.com"
     username: "test3"
     roles: ["ROLE_USER"]
     password: <hashPassword('test3')>
     image: "/assets/img/profile.jpg" 
-    createdAt: <(new DateTimeImmutable())>
 
 
 App\Entity\Category:
@@ -39,240 +36,180 @@ App\Entity\Trick:
     name: "Mute"
     description: "Saisie de la carre frontside de la planche entre les deux pieds avec la main avant."
     slug: "mute"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_1'
     user: '@user_1'
   trick_2:
     name: "360"
     description: "Trois six pour un tour complet"
     slug: "360"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_2'
     user: '@user_3'
   trick_3:
     name: "Front flip"
     description: "Rotations en avant."
     slug: "front-flip"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_3'
     user: '@user_1'
   trick_4:
     name: "Tail slide"
     description: "L'arrière de la planche sur la barre."
     slug: "tail-slide"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_5:
     name: "Regular"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "regular"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_6:
     name: "Switch"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "switch"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_7:
     name: "Style Week"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "style-week"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_8:
     name: "Tail Grab"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "tail-grab"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_9:
     name: "Stalefish"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "stalefish"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_10:
     name: "Truck Driver"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "truck-driver"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_11:
     name: "1080"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "1080"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_12:
     name: "720"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "720"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_13:
     name: "Nose Slide"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "nose-slide"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_14:
     name: "Backside Air"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "backside-air"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_15:
     name: "Rocket Air"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "rocket-air"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_17:
     name: "Mute1"
     description: "Saisie de la carre frontside de la planche entre les deux pieds avec la main avant."
     slug: "mute1"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_1'
     user: '@user_1'
   trick_27:
     name: "3601"
     description: "Trois six pour un tour complet"
     slug: "3601"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_2'
     user: '@user_3'
   trick_73:
     name: "Front flip1"
     description: "Rotations en avant."
     slug: "front-flip1"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_3'
     user: '@user_1'
   trick_47:
     name: "Tail slide1"
     description: "L'arrière de la planche sur la barre."
     slug: "tail-slide1"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_65:
     name: "Regular1"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "regular1"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_56:
     name: "Switch1"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "switch1"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_77:
     name: "Style Week1"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "style-week1"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_88:
     name: "Tail Grab1"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "tail-grab1"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_99:
     name: "Stalefish1"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "stalefish1"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_100:
     name: "Truck Driver1"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "truck-driver1"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_110:
     name: "10801"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "10801"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_122:
     name: "7201"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "7201"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_133:
     name: "Nose Slide1"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "nose-slide1"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_144:
     name: "Backside Air1"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "backside-air1"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
   trick_155:
     name: "Rocket Air1"
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis sapien vitae orci ultrices egestas gravida in lacus. Cras sodales ante ac interdum commodo."
     slug: "rocket-air1"
-    updated_at: <(new DateTimeImmutable())>
-    created_at: <(new DateTimeImmutable())>
     category: '@category_4'
     user: '@user_2'
 
@@ -486,43 +423,29 @@ App\Entity\Image:
 App\Entity\Comment:
   comment_1:
     content: "Super commentaire 1 !"
-    created_at: <(new DateTimeImmutable())>
-    updated_at: <(new DateTimeImmutable())>
     user: '@user_2'
     trick: '@trick_1'
   comment_2:
     content: "Super commentaire 2 !"
-    created_at: <(new DateTimeImmutable())>
-    updated_at: <(new DateTimeImmutable())>
     user: '@user_2'
     trick: '@trick_1'
   comment_3:
     content: "Super commentaire 3 !"
-    created_at: <(new DateTimeImmutable())>
-    updated_at: <(new DateTimeImmutable())>
     user: '@user_3'
     trick: '@trick_1'
   comment_11:
     content: "Super commentaire 4 !"
-    created_at: <(new DateTimeImmutable())>
-    updated_at: <(new DateTimeImmutable())>
     user: '@user_2'
     trick: '@trick_1'
   comment_22:
     content: "Super commentaire 5 !"
-    created_at: <(new DateTimeImmutable())>
-    updated_at: <(new DateTimeImmutable())>
     user: '@user_2'
     trick: '@trick_1'
   comment_33:
     content: "Super commentaire 6 !"
-    created_at: <(new DateTimeImmutable())>
-    updated_at: <(new DateTimeImmutable())>
     user: '@user_3'
     trick: '@trick_1'
   comment_333:
     content: "Super commentaire 7 !"
-    created_at: <(new DateTimeImmutable())>
-    updated_at: <(new DateTimeImmutable())>
     user: '@user_3'
     trick: '@trick_1'
