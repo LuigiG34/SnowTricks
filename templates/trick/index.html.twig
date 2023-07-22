@@ -29,39 +29,8 @@
 		}
 	</style>
 
-	<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Supprimer "{{ trick.name }}"</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				Êtes-vous sûr de vouloir supprimer "{{ trick.name }}" ?
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-				<button type="button" class="btn btn-danger">Supprimer</button>
-			</div>
-		</div>
-	</div>
-</div>
-
 
 	<div class="container-fluid d-flex align-items-center justify-content-center flex-column" id="bg-img">
-
-		{% if app.user and trick.user.id == app.user.id %}
-		<div class="d-flex align-items-center justify-content-end flex-row w-100 gap-1">
-			<a class="btn btn-light">
-				<i class="bi bi-pencil-fill"></i>
-			</a>
-			<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-				<i class="bi bi-trash-fill"></i>
-			</button>
-		</div>
-		{% endif %}
-
 		<div class="container p-5 d-flex align-items-center justify-content-center">
 			<section class="p-5 d-flex align-items-center justify-content-center">
 				<div class="p-5 d-flex align-items-center justify-content-center flex-column">
