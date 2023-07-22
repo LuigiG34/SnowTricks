@@ -46,7 +46,7 @@
 						<div class="card-body">
 							<h5 class="card-title">
 								<a class="link-light" href="{{ path('app_trick', {slug: trick.slug}) }}">{{ trick.name }}</a>
-								{% if app.user %}
+								{% if app.user and trick.user.id == app.user.id %}
 									<a class="btn btn-light">
 										<i class="bi bi-pencil-fill"></i>
 									</a>

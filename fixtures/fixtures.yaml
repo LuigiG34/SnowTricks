@@ -339,83 +339,83 @@ App\Entity\Image:
     path: "/uploads/mute.jpg"
     trick: '@trick_4'
   image_5:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-4.jpg"
     trick: '@trick_5'
   image_6:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-5.jpg"
     trick: '@trick_6'
   image_7:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-6.jpg"
     trick: '@trick_7'
   image_8:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-7.jpg"
     trick: '@trick_8'
   image_9:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-8.jpg"
     trick: '@trick_9'
   image_10:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-9.jpg"
     trick: '@trick_10'
   image_1f1:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-10.jpg"
     trick: '@trick_11'
   image_12:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-11.jpg"
     trick: '@trick_12'
   image_13:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-12.jpg"
     trick: '@trick_13'
   image_14:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-13.jpg"
     trick: '@trick_14'
   image_15:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-14.jpg"
     trick: '@trick_15'
 
   image_1117:
-    path: "/uploads/tail-slide3.jpg"
+    path: "/uploads/tail-slide-15.jpg"
     trick: '@trick_17'
   image_72:
-    path: "/uploads/front-flip.jpg"
+    path: "/uploads/front-flip-2.jpg"
     trick: '@trick_27'
   image_37:
-    path: "/uploads/360.jpg"
+    path: "/uploads/360-2.jpg"
     trick: '@trick_73'
   image_47:
-    path: "/uploads/mute.jpg"
+    path: "/uploads/mute-2.jpg"
     trick: '@trick_47'
   image_56:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-16.jpg"
     trick: '@trick_56'
   image_65:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-17.jpg"
     trick: '@trick_65'
   image_77:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-18.jpg"
     trick: '@trick_77'
   image_88:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-19.jpg"
     trick: '@trick_88'
   image_99:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-20.jpg"
     trick: '@trick_99'
   image_100:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-21.jpg"
     trick: '@trick_100'
   image_110:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-22.jpg"
     trick: '@trick_110'
   image_122:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-23.jpg"
     trick: '@trick_122'
   image_133:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-24.jpg"
     trick: '@trick_133'
   image_144:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-25.jpg"
     trick: '@trick_144'
   image_155:
-    path: "/uploads/tail-slide.jpg"
+    path: "/uploads/tail-slide-26.jpg"
     trick: '@trick_155'
 
 
