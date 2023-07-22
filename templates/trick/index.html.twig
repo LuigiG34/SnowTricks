@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trick
-{% endblock %}
+{% block title %}Trick - {{ trick.name }} {% endblock %}
 
 {% block body %}
 
@@ -30,7 +29,39 @@
 		}
 	</style>
 
+	<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Supprimer "{{ trick.name }}"</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Êtes-vous sûr de vouloir supprimer "{{ trick.name }}" ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+				<button type="button" class="btn btn-danger">Supprimer</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 	<div class="container-fluid d-flex align-items-center justify-content-center flex-column" id="bg-img">
+
+		{% if app.user and trick.user.id == app.user.id %}
+		<div class="d-flex align-items-center justify-content-end flex-row w-100 gap-1">
+			<a class="btn btn-light">
+				<i class="bi bi-pencil-fill"></i>
+			</a>
+			<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+				<i class="bi bi-trash-fill"></i>
+			</button>
+		</div>
+		{% endif %}
+
 		<div class="container p-5 d-flex align-items-center justify-content-center">
 			<section class="p-5 d-flex align-items-center justify-content-center">
 				<div class="p-5 d-flex align-items-center justify-content-center flex-column">
@@ -109,17 +140,19 @@
 
 			<hr>
 			{% if app.user %}
-			<form method="POST" action="#" class="d-flex justify-content-center align-items-center w-100 flex-column gap-2">
-				<textarea class="form-control"></textarea>
-				<button class="btn btn-light">Soumettre le commentaire</button>
-			</form>
+			{{ form_start(form) }}
+				{{ form_row(form.content) }}
+				<button class="btn btn-light w-100 mt-1">Soumettre</button>
+			{{ form_end(form) }}
 			{% else %}
 				<p class="text-light d-flex justify-content-center align-items-center w-100">Veuillez vous connecter <a class="ms-2" href="/login">ici</a></p>
 			{% endif %}
 			<hr>
 
 			<div id="commentsContainer">
-				{% for loopIndex, comment in trick.comments %}
+			{% set sortedComments = trick.comments|sort((a, b) => b.createdAt.timestamp - a.createdAt.timestamp) %}
+
+				{% for loopIndex, comment in sortedComments %}
 					<div class="col {% if loopIndex >= 4 %}d-none{% endif %}">
 						<div class="d-flex align-items-center justify-content-start">
 							<div>
@@ -129,7 +162,7 @@
 								<small class="text-light">
 									<strong>{{ comment.user.username }}</strong>
 									|
-									{{ comment.createdAt|date('Y-m-d') }}</small>
+									{{ comment.createdAt|date('d/m/Y') }}</small>
 								<p class="text-light">{{ comment.content }}</p>
 							</div>
 						</div>
