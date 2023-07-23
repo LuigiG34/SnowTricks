@@ -44,10 +44,10 @@
 					<div class="card bg-dark shadow" style="width: 18rem;">
 						{% if trick.images.first.path is defined %}
 							<img src="{{ trick.images.first.path }}" class="card-img-top img-trick" alt="...">
-							{% else %}
+						{% else %}
 							<img src="/assets/img/default.jpg" class="card-img-top img-trick" alt="...">
 						{% endif %}
-						
+
 						<div class="card-body">
 							<h5 class="card-title">
 								<a class="link-light" href="{{ path('app_trick', {slug: trick.slug}) }}">{{ trick.name }}</a>
@@ -64,15 +64,19 @@
 										<div class="modal-dialog">
 											<div class="modal-content">
 												<div class="modal-header">
-													<h5 class="modal-title" id="exampleModalLabel">Supprimer "{{ trick.name }}"</h5>
+													<h5 class="modal-title" id="exampleModalLabel">Delete "{{ trick.name }}"</h5>
 													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 												</div>
 												<div class="modal-body">
-													Êtes-vous sûr de vouloir supprimer "{{ trick.name }}" ?
+													Are you sure you want to delete "{{ trick.name }}" ?
 												</div>
 												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-													<button type="button" class="btn btn-danger">Supprimer</button>
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+													<form method="post" action="{{path('app_delete_trick', {'id': trick.id}) }}">
+														<input type="hidden" name="_method" value="DELETE">
+														<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
+														<button class="btn btn-danger">Delete</button>
+													</form>
 												</div>
 											</div>
 										</div>
