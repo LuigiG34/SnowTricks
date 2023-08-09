@@ -26,7 +26,7 @@ class Comment implements TimestampInterface
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete:"CASCADE")]
     private ?Trick $trick = null;
 
 
