@@ -116,16 +116,12 @@ class TrickController extends AbstractController
 
 
     #[Route('/tricks/delete/{slug}', name: 'app_delete_trick')]
-    public function deleteTrick(Trick $trick, Request $request, EntityManagerInterface $manager, ImageRepository $imageRepository, CommentRepository $commentRepository, VideoRepository $videoRepository): Response
+    public function deleteTrick(Trick $trick, Request $request, TrickRepository $trickRepository): Response
     {
-        // UTILISER SLUF A LA PLACE D'ID
-        // METTRE trick a la place de $id dans les paramètre de la méthode 
-
-        // Suppression en CASCADE pour éléments associés à l'entité Trick (video, image, comment)
 
         if ($this->isCsrfTokenValid('delete' . $trick->getSlug(), $request->request->get('_token'))) {
 
-            $images = $imageRepository->findBy(["trick" => $trick]);
+            $images = $trick->getImages();
 
             foreach ($images as $image) {
                 $nameImageBool = file_exists($this->getParameter('public_directory').$image->getPath());
@@ -133,21 +129,10 @@ class TrickController extends AbstractController
                 if ($nameImageBool !== false) {
                     unlink($this->getParameter('public_directory').$image->getPath());
                 }
-                $manager->remove($image);
+
             }
 
-            $videos = $videoRepository->findBy(["trick" => $trick]);
-            foreach ($videos as $video) {
-                $manager->remove($video);
-            }
-
-            $comments = $commentRepository->findBy(["trick" => $trick]);
-            foreach ($comments as $comment) {
-                $manager->remove($comment);
-            }
-
-            $manager->remove($trick);
-            $manager->flush();
+            $trickRepository->remove($trick, true);
         }
 
         $this->addFlash('success', 'Trick deleted successfully.');

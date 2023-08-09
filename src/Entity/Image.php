@@ -18,7 +18,7 @@ class Image
     private ?string $path = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete:"CASCADE")]
     private ?Trick $trick = null;
 
     #[ORM\Column(nullable: false)]
