@@ -88,7 +88,6 @@ class TrickController extends AbstractController
     #[Route('/tricks/edit/{slug}', name: 'app_edit_trick')]
     public function updateTrick(Trick $trick, TrickRepository $repository, Request $request): Response
     {
-        dd($trick);
         // Ajouter validation sur les champs
         // Ajouter video et image directement dans le formulaire 
 
