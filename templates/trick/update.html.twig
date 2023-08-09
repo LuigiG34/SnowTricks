@@ -6,42 +6,88 @@
 
 {% block body %}
 
+	<style>
+		#bg-img {
+			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ trick.images.first.path }});
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center;
+			height: 600px;
+		}
+
+		.w-300-h-200 {
+			width: 300px;
+			height: 200px;
+		}
+
+		.w-302-h-256{
+			width: 302px;
+			height: 256px;
+		}
+	</style>
+
+	<div class="container-fluid d-flex align-items-center justify-content-center flex-column" id="bg-img">
+		<div class="d-flex align-items-center justify-content-end w-100">
+			<button class="btn btn-light">
+				<i class="bi bi-pencil-fill"></i>
+			</button>
+		</div>
+
+		<div class="container p-5 d-flex align-items-center justify-content-center">
+			<section class="p-5 d-flex align-items-center justify-content-center">
+				<div class="p-5 d-flex align-items-center justify-content-center flex-column">
+					<h1 class="text-light">{{ trick.name }}</h1>
+				</div>
+			</section>
+		</div>
+	</div>
+
 	<div class="container-fluid p-5">
 		<div class="container">
 			<div class="row">
-
-				<div class="col d-flex align-items-center justify-content-center gap-1 flex-row">
-					{% for image in trick.images %}
-						<div>
-							<img height="100px" src="{{ image.path }}">
+				{% for image in trick.images %}
+					<div class="col d-flex align-items-center justify-content-center gap-5 flex-row ">
+						<div class="card bg-light shadow">
+							<img class="w-300-h-200" src="{{ image.path }}">
 							<div class="w-100 d-flex align-items-center justify-content-center gap-1">
-								<a class="btn btn-dark" href="{{ path('app_edit_trick', {slug: trick.slug}) }}">
-									<i class="bi bi-pencil-fill"></i>
-								</a>
-								<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{ trick.id }}">
+								<button type="button" class="btn btn-light my-2" data-bs-toggle="modal" data-bs-target="#exampleModal{{ trick.id }}">
 									<i class="bi bi-trash-fill"></i>
 								</button>
 							</div>
 						</div>
-					{% endfor %}
+					</div>
+				{% endfor %}
+				<div class="col d-flex align-items-center justify-content-center gap-5 flex-row">
+					<div class="card bg-light shadow w-302-h-256 d-flex align-items-center justify-content-center flex-column">
+						<p>Ajouter une/plusieurs image(s)</p>
+						<button type="button" class="btn btn-primary my-2" data-bs-toggle="modal" data-bs-target="#exampleModal{{ trick.id }}">
+							<i class="bi bi-plus-square"></i>
+						</button>
+					</div>
 				</div>
 
-				<div class="col d-flex align-items-center justify-content-center gap-1 flex-row">
-					{% for video in trick.videos %}
-						<div>
-							<iframe width="100%" height="100px" src="{{ video.link }}"></iframe>
+			</div>
+			<div class="row my-5">
+				{% for video in trick.videos %}
+					<div class="col d-flex align-items-center justify-content-center gap-1 flex-row">
+						<div class="card bg-light shadow">
+							<iframe class="w-300-h-200" src="{{ video.link }}"></iframe>
 							<div class="w-100 d-flex align-items-center justify-content-center gap-1">
-								<a class="btn btn-dark" href="{{ path('app_edit_trick', {slug: trick.slug}) }}">
-									<i class="bi bi-pencil-fill"></i>
-								</a>
-								<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{ trick.id }}">
+								<button type="button" class="btn btn-light my-2" data-bs-toggle="modal" data-bs-target="#exampleModal{{ trick.id }}">
 									<i class="bi bi-trash-fill"></i>
 								</button>
 							</div>
 						</div>
-					{% endfor %}
+					</div>
+				{% endfor %}
+				<div class="col d-flex align-items-center justify-content-center gap-5 flex-row">
+					<div class="card bg-light shadow w-302-h-256 d-flex align-items-center justify-content-center flex-column">
+						<p>Ajouter une/plusieurs vidéo(s)</p>
+						<button type="button" class="btn btn-primary my-2" data-bs-toggle="modal" data-bs-target="#exampleModal{{ trick.id }}">
+							<i class="bi bi-plus-square"></i>
+						</button>
+					</div>
 				</div>
-
 			</div>
 
 			{{ form_start(form) }}
