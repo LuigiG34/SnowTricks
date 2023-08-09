@@ -21,6 +21,9 @@ class Image
     #[ORM\JoinColumn(nullable: false)]
     private ?Trick $trick = null;
 
+    #[ORM\Column(nullable: false)]
+    private ?bool $isMain = null;
+
    
 
     public function getId(): ?int
@@ -48,6 +51,18 @@ class Image
     public function setTrick(?Trick $trick): self
     {
         $this->trick = $trick;
+
+        return $this;
+    }
+
+    public function isIsMain(): ?bool
+    {
+        return $this->isMain;
+    }
+
+    public function setIsMain(?bool $isMain): self
+    {
+        $this->isMain = $isMain;
 
         return $this;
     }
