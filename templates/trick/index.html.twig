@@ -14,14 +14,6 @@
 			height: 600px;
 		}
 
-		hr {
-			height: 2px;
-			width: 100%;
-			border-width: 0;
-			color: white;
-			background-color: white;
-		}
-
 		.user-img {
 			width: 50px;
 			height: 50px;
@@ -95,28 +87,28 @@
 
 
 			</div>
-			<p class="text-light py-5">{{ trick.description }}</p>
+			<p class=" py-5">{{ trick.description }}</p>
 
 			<div class="d-flex align-items-center justify-content-center">
-				<span class="badge bg-light text-dark m-2">Créé le :
+				<span class="badge bg-primary text-light m-2">Créé le :
 					{{ trick.createdAt|date('Y-m-d') }}</span>
-				<span class="badge bg-light text-dark m-2">Modifié le :
+				<span class="badge bg-primary text-light m-2">Modifié le :
 					{{ trick.updatedAt|date('Y-m-d') }}</span>
-				<span class="badge bg-light text-dark m-2">Catégorie :
+				<span class="badge bg-primary text-light m-2">Catégorie :
 					{{ trick.category.name }}</span>
 			</div>
 
 
-			<hr>
+			<hr class="mt-5">
 			{% if app.user %}
 			{{ form_start(form) }}
 				{{ form_row(form.content) }}
-				<button class="btn btn-light w-100 mt-1">Soumettre</button>
+				<button class="btn btn-primary w-100 mt-1">Soumettre</button>
 			{{ form_end(form) }}
 			{% else %}
-				<p class="text-light d-flex justify-content-center align-items-center w-100">Veuillez vous connecter <a class="ms-2" href="/login">ici</a></p>
+					<p class="p-5 text-center">Veuillez vous connecter <a class="ms-2" href="{{ path('app_login') }}">ici</a></p>
 			{% endif %}
-			<hr>
+			<hr class="mb-5">
 
 			<div id="commentsContainer">
 			{% set sortedComments = trick.comments|sort((a, b) => b.createdAt.timestamp - a.createdAt.timestamp) %}
@@ -127,19 +119,19 @@
 							<div>
 								<img class="user-img" src="{{ comment.user.image }}">
 							</div>
-							<div class="m-3 p-3 border border-secondary w-100 rounded">
-								<small class="text-light">
+							<div class="m-3 p-3 border w-100 rounded">
+								<small class="">
 									<strong>{{ comment.user.username }}</strong>
 									|
 									{{ comment.createdAt|date('d/m/Y') }}</small>
-								<p class="text-light">{{ comment.content }}</p>
+								<p class="">{{ comment.content }}</p>
 							</div>
 						</div>
 					</div>
 				{% endfor %}
 
 				<div class="text-center mt-4">
-					<button id="loadMoreButton" class="btn btn-light">Load More</button>
+					<button id="loadMoreButton" class="btn btn-primary">Load More</button>
 				</div>
 			</div>
 		</div>

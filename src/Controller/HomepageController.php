@@ -12,14 +12,10 @@ class HomepageController extends AbstractController
     #[Route('/', name: 'app_homepage')]
     public function index(TrickRepository $repository): Response
     {
-        $all = $repository->findAll();
-
-        // Keep only the first 15 tricks
-        $firstFifteenTricks = array_slice($all, 0, 15);
-//        dd($firstFifteenTricks);
+        $tricks = $repository->findBy([],['createdAt' => 'ASC'], 9);
 
         return $this->render('homepage/index.html.twig', [
-            'tricks' => $firstFifteenTricks,
+            'tricks' => $tricks,
         ]);
     }
 }

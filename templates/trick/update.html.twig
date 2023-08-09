@@ -15,7 +15,7 @@
 						<div>
 							<img height="100px" src="{{ image.path }}">
 							<div class="w-100 d-flex align-items-center justify-content-center gap-1">
-								<a class="btn btn-light" href="{{ path('app_edit_trick', {slug: trick.slug}) }}">
+								<a class="btn btn-dark" href="{{ path('app_edit_trick', {slug: trick.slug}) }}">
 									<i class="bi bi-pencil-fill"></i>
 								</a>
 								<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{ trick.id }}">
@@ -31,7 +31,7 @@
 						<div>
 							<iframe width="100%" height="100px" src="{{ video.link }}"></iframe>
 							<div class="w-100 d-flex align-items-center justify-content-center gap-1">
-								<a class="btn btn-light" href="{{ path('app_edit_trick', {slug: trick.slug}) }}">
+								<a class="btn btn-dark" href="{{ path('app_edit_trick', {slug: trick.slug}) }}">
 									<i class="bi bi-pencil-fill"></i>
 								</a>
 								<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{ trick.id }}">
@@ -49,7 +49,7 @@
 			{{ form_row(form.description) }}
 			{{ form_row(form.category) }}
 			<div class="d-flex align-items-center justify-content-end flex-row w-100 mt-1">
-				<button type="submit" class="btn btn-light">Save</button>
+				<button type="submit" class="btn btn-dark">Save</button>
 			</div>
 			{{ form_end(form) }}
 
