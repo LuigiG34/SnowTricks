@@ -4,15 +4,21 @@
 
 {% block body %}
 
+	{% for image in trick.images %}
+	{% if image.isMain == true %}
 	<style>
-
 		#bg-img {
-			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ trick.images.first.path }});
+			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ image.path }});
 			background-size: cover;
 			background-repeat: no-repeat;
 			background-position: center;
 			height: 600px;
 		}
+	</style>
+	{% endif %}
+	{% endfor %}
+
+	<style>
 
 		.user-img {
 			width: 50px;

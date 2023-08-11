@@ -28,7 +28,7 @@ class SluggableListener implements EventSubscriber
     {
         $entity = $event->getObject();
         if($entity instanceof SlugInterface) {
-            $entity->setSlug($this->slugger->slug((string) $entity));
+            $entity->setSlug(strtolower($this->slugger->slug((string) $entity)));
         }
     }
 
@@ -36,7 +36,7 @@ class SluggableListener implements EventSubscriber
     {
         $entity = $event->getObject();
         if($entity instanceof SlugInterface) {
-            $entity->setSlug($this->slugger->slug((string) $entity));
+            $entity->setSlug(strtolower($this->slugger->slug((string) $entity)));
         }
     }
 }
