@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\CommentType;
 use App\Form\TrickType;
-use App\Repository\CommentRepository;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
 use App\Repository\VideoRepository;
@@ -27,16 +26,21 @@ class TrickController extends AbstractController
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
-        // Ajouter validation des données
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $comment->setContent($comment->getContent());
+                $comment->setTrick($trick);
+                $comment->setUser($this->getUser());
+                $manager->persist($comment);
+                $manager->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $comment->setContent($comment->getContent());
-            $comment->setTrick($trick);
-            $comment->setUser($this->getUser());
-            $manager->persist($comment);
-            $manager->flush();
-
-            $this->addFlash('success', 'Comment added successfully !');
+                $this->addFlash('success', 'Comment added successfully !');
+            } else {
+                $errors = $form->getErrors(true, true);
+                foreach ($errors as $error) {
+                    $this->addFlash('danger', $error->getMessage());
+                }
+            }
             return $this->redirectToRoute('app_trick', ['slug' => $trick->getSlug()]);
         }
 
@@ -94,11 +98,24 @@ class TrickController extends AbstractController
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $repository->save($trick);
+        if ($form->isSubmitted()) {
 
-            $this->addFlash('success', 'Trick updated successfully !');
-            return $this->redirectToRoute('app_trick', [
+            if ($form->isValid()) {
+                dd($trick, $form->getData());
+
+                $repository->save($trick);
+    
+                $this->addFlash('success', 'Trick updated successfully !');
+            }else{
+                dd($trick, $form->getData(), $form->getErrors(true, true), $_POST, $_FILES);
+                
+                $errors = $form->getErrors(true, true);
+                foreach ($errors as $error) {
+                    $this->addFlash('danger', $error->getMessage());
+                }
+            }
+            
+            return $this->redirectToRoute('app_edit_trick', [
                 'slug' => $trick->getSlug()
             ]);
         }
@@ -124,12 +141,11 @@ class TrickController extends AbstractController
             $images = $trick->getImages();
 
             foreach ($images as $image) {
-                $nameImageBool = file_exists($this->getParameter('public_directory').$image->getPath());
+                $nameImageBool = file_exists($this->getParameter('public_directory') . $image->getPath());
 
                 if ($nameImageBool !== false) {
-                    unlink($this->getParameter('public_directory').$image->getPath());
+                    unlink($this->getParameter('public_directory') . $image->getPath());
                 }
-
             }
 
             $trickRepository->remove($trick, true);
@@ -137,5 +153,46 @@ class TrickController extends AbstractController
 
         $this->addFlash('success', 'Trick deleted successfully.');
         return $this->redirectToRoute('app_homepage');
+    }
+
+
+
+
+    #[Route('/image/delete/{id}', name: 'app_delete_image')]
+    public function deleteImage($id, Request $request, ImageRepository $imageRepository): Response
+    {
+        $image = $imageRepository->find($id);
+
+        if ($this->isCsrfTokenValid('delete' . $image->getId(), $request->request->get('_token'))) {
+
+            $nameImageBool = file_exists($this->getParameter('public_directory') . $image->getPath());
+
+            if ($nameImageBool !== false) {
+                unlink($this->getParameter('public_directory') . $image->getPath());
+            }
+
+            $imageRepository->remove($image, true);
+        }
+
+        $this->addFlash('success', 'Image deleted successfully.');
+        return $this->redirectToRoute('app_trick', ['slug' => $image->getTrick()->getSlug()]);
+    }
+
+
+
+
+    #[Route('/video/delete/{id}', name: 'app_delete_video')]
+    public function deleteVideo($id, Request $request, VideoRepository $videoRepository): Response
+    {
+        $video = $videoRepository->find($id);
+
+        if ($this->isCsrfTokenValid('delete' . $video->getId(), $request->request->get('_token'))) {
+
+            $videoRepository->remove($video, true);
+        
+        }
+
+        $this->addFlash('success', 'Video deleted successfully.');
+        return $this->redirectToRoute('app_trick', ['slug' => $video->getTrick()->getSlug()]);
     }
 }
