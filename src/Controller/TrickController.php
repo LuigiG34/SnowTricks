@@ -51,6 +51,42 @@ class TrickController extends AbstractController
 
     // Ajouter les commentaires en AJAX
 
+    #[Route('/add/trick', name: 'app_add_trick')]
+    public function addTrick(TrickRepository $repository, Request $request): Response
+    {
+        // Ajouter validation sur les champs
+        // Ajouter video et image directement dans le formulaire 
+
+        $trick = new Trick;
+        $form = $this->createForm(TrickType::class, $trick);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+
+            if ($form->isValid()) {
+
+                $repository->save($trick);
+    
+                $this->addFlash('success', 'Trick added successfully !');
+            }else{
+
+                $errors = $form->getErrors(true, true);
+                foreach ($errors as $error) {
+                    $this->addFlash('danger', $error->getMessage());
+                }
+            }
+            
+            return $this->redirectToRoute('app_edit_trick', [
+                'slug' => $trick->getSlug()
+            ]);
+        }
+
+        return $this->render('trick/add.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+
     #[Route('/tricks/edit/{slug}', name: 'app_edit_trick')]
     public function updateTrick(Trick $trick, TrickRepository $repository, Request $request): Response
     {
@@ -63,13 +99,11 @@ class TrickController extends AbstractController
         if ($form->isSubmitted()) {
 
             if ($form->isValid()) {
-                dd($trick, $form->getData());
 
                 $repository->save($trick);
     
                 $this->addFlash('success', 'Trick updated successfully !');
             }else{
-                dd($trick, $form->getData(), $form->getErrors(true, true), $_POST, $_FILES);
                 
                 $errors = $form->getErrors(true, true);
                 foreach ($errors as $error) {
