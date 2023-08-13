@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trick - Add
+{% endblock %}
+
+{% block body %}
+
+
+	<style>
+		#bg-img {
+			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/default.jpg');
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center;
+			height: 600px;
+		}
+
+		.w-300-h-200 {
+			width: 300px;
+			height: 200px;
+		}
+
+		.w-302-h-256 {
+			width: 302px;
+			height: 256px;
+		}
+	</style>
+
+	{{ form_start(form) }}
+
+	<div class="container-fluid d-flex align-items-center justify-content-center flex-column" id="bg-img">
+		<div class="d-flex align-items-center justify-content-end w-100">
+			<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModalMainImg">
+				<i class="bi bi-pencil-fill"></i>
+			</button>
+		</div>
+
+		<div class="modal fade" id="exampleModalMainImg" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add/Update the main Image
+						</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						Do you want to add/update the main Image ?
+						{{ form_row(form.mainImageFile) }}
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Continue</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="container p-5 d-flex align-items-center justify-content-center">
+			<section class="p-5 d-flex align-items-center justify-content-center">
+				<div class="p-5 d-flex align-items-center justify-content-center flex-column">
+					<h1 class="text-light">Add a new Trick</h1>
+				</div>
+			</section>
+		</div>
+	</div>
+
+	<div class="container-fluid p-5">
+		<div class="container">
+			<div class="row mb-5">
+				<div class="col-6 d-flex align-items-center justify-content-center gap-5 flex-row">
+					<div class="card bg-light shadow w-302-h-256 d-flex align-items-center justify-content-center flex-column">
+						<p>Ajouter une/plusieurs image(s)</p>
+						<div class="m-5">
+							{{ form_row(form.images) }}
+						</div>
+					</div>
+				</div>
+
+
+                <div class="col-6 d-flex align-items-center justify-content-center gap-5 flex-row">
+					<div class="card bg-light shadow w-302-h-256 d-flex align-items-center justify-content-center flex-column">
+						<p>Ajouter une/plusieurs vidéo(s)</p>
+						<button type="button" class="btn btn-primary my-2" data-bs-toggle="modal" data-bs-target="#exampleModalVideos">
+							<i class="bi bi-plus-square"></i>
+						</button>
+
+						<div class="modal fade" id="exampleModalVideos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Add multiple videos
+										</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										Do you want to add another video ?
+										{{ form_row(form.videos) }}
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+										<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Continue</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{{ form_row(form.name) }}
+			{{ form_row(form.description) }}
+			{{ form_row(form.category) }}
+			<div class="d-flex align-items-center justify-content-end flex-row w-100 mt-1">
+				<button type="submit" class="btn btn-dark">Save</button>
+			</div>
+		</div>
+	</div>
+	{{ form_end(form) }}
+{% endblock %}
