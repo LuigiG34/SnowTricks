@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -70,12 +71,14 @@ class TrickType extends AbstractType
                 'mapped' => false,
                 'multiple' => true,
                 'constraints' => [
-                    new File([
-                        'maxSize' => '5M',
-                        'maxSizeMessage' => 'Please upload an image under 5MB',
-                        'mimeTypes' => ['image/jpeg', 'image/png', 'image/gif'],
-                        'mimeTypesMessage' => 'Please upload a valid image (JPEG, PNG, GIF)',
-                    ]),
+                    new All([
+                        new File([
+                            'maxSize' => '5M',
+                            'maxSizeMessage' => 'Please upload an image under 5MB',
+                            'mimeTypes' => ['image/jpeg', 'image/png', 'image/gif'],
+                            'mimeTypesMessage' => 'Please upload a valid image (JPEG, PNG, GIF)',
+                        ]),
+                    ])
                 ],
                 'attr' => [
                     'accept' => 'image/*', 

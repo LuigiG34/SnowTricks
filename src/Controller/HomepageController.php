@@ -10,7 +10,7 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class HomepageController extends AbstractController
 {
-    #[Route('/', name: 'app_homepage')]
+    #[Route('/', name: 'app_homepage', methods: ['GET'])]
     public function index(TrickRepository $repository): Response
     {
         $paginator = $repository->getTrickPaginator(0);
