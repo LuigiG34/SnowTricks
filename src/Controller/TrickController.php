@@ -156,19 +156,18 @@ class TrickController extends AbstractController
 
 
     #[Route('/tricks/edit/{slug}', name: 'app_edit_trick', methods: ['GET', 'POST'])]
-    public function updateTrick(Trick $trick, TrickRepository $repository, Request $request): Response
+    public function updateTrick(Trick $trick, TrickRepository $repository, ImageRepository $imageRepository, Request $request): Response
     {
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-
+            
             if ($form->isValid()) {
-
                 // Traitement de l'image principale
                 if ($form->get('mainImageFile')->getData() !== null) {
 
-                    // On supprimer l'image principale actuelle
+                    // // On supprimer l'image principale actuelle
                     $imageCollection = $trick->getImages();
                     if (!empty($imageCollection)) {
                         foreach ($imageCollection as $img) {
@@ -179,7 +178,7 @@ class TrickController extends AbstractController
                                     unlink($this->getParameter('images_directory') . $img->getName());
                                 }
 
-                                $trick->removeImage($img);
+                                $imageRepository->remove($img, true);
                             }
                         }
                     }
@@ -191,6 +190,7 @@ class TrickController extends AbstractController
                     $mainImageEntity = new Image;
                     $mainImageEntity->setName($fileMainImg);
                     $mainImageEntity->setIsMain(true);
+                    $mainImageEntity->setTrick($trick);
                     $trick->addImage($mainImageEntity);
                 }
 
@@ -204,6 +204,7 @@ class TrickController extends AbstractController
                         $imageEntity = new Image;
                         $imageEntity->setName($file);
                         $imageEntity->setIsMain(false);
+                        $imageEntity->setTrick($trick);
                         $trick->addImage($imageEntity);
                     }
                 }
@@ -213,6 +214,7 @@ class TrickController extends AbstractController
                     $videoUrl = str_replace("watch?v=", "embed/", $form->get('video_url')->getData());
                     $videoEntity = new Video;
                     $videoEntity->setLink($videoUrl);
+                    $videoEntity->setTrick($trick);
                     $trick->addVideo($videoEntity);
                 }
 
