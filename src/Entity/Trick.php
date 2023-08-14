@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 class Trick implements TimestampInterface, SlugInterface
@@ -24,9 +25,23 @@ class Trick implements TimestampInterface, SlugInterface
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: 'Your trick\'s name must be at least {{ limit }} characters long',
+        maxMessage: 'Your trick\'s name cannot be longer than {{ limit }} characters',
+    )]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 10,
+        max: 1000,
+        minMessage: 'Your description must be at least {{ limit }} characters long',
+        maxMessage: 'Your description cannot be longer than {{ limit }} characters',
+    )]
     private ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
@@ -35,6 +50,7 @@ class Trick implements TimestampInterface, SlugInterface
 
     #[ORM\ManyToOne(targetEntity: Category::class)]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?Category $category = null;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Image::class)]

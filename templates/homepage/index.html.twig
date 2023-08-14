@@ -42,8 +42,16 @@
 				{% for trick in tricks %}
 					<div class="col-s-12 col-m-6 col-lg-4 trick">
 						<div class="card bg-light shadow m-5">
-							{% if trick.images.first.path is defined %}
-								<img src="{{ trick.images.first.path }}" class="card-img-top img-trick" alt="...">
+
+							{% set mainImage = null %}
+							{% for image in trick.images %}
+								{% if image.isMain %}
+									{% set mainImage = image %}
+								{% endif %}
+							{% endfor %}
+
+							{% if mainImage %}
+								<img src="{{ mainImage.path }}" class="card-img-top img-trick" alt="...">
 							{% else %}
 								<img src="/assets/img/default.jpg" class="card-img-top img-trick" alt="...">
 							{% endif %}

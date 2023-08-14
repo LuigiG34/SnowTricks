@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\TrickRepository;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class HomepageController extends AbstractController
 {
@@ -21,24 +22,28 @@ class HomepageController extends AbstractController
 
 
     #[Route('/get-more-tricks/{offset}', name: 'get_more_tricks', methods: ['GET'])]
-    public function getMoreTricks(TrickRepository $repository, $offset)
+    public function getMoreTricks(TrickRepository $repository, $offset, TokenGeneratorInterface $tokenGenerator)
     {
         $paginator = $repository->getTrickPaginator($offset);
         $html="";
 
         foreach ($paginator as $trick) {
-            $firstImage = null;
             $images = $trick->getImages();
+
             if (!empty($images)) {
-                $firstImage = $images[0]->getPath();
+                foreach($images as $img){
+                    if($img->getIsMain()){
+                        $mainImg = $img->getPath();
+                    }
+                }
             } else {
-                $firstImage = "/assets/img/default.jpg";
+                $mainImg = "/assets/img/default.jpg";
             }
             
             $html .= "
             <div class='col-s-12 col-m-6 col-lg-4 trick'>
                 <div class='card bg-light shadow m-5'>
-                    <img src='".$firstImage."' class='card-img-top img-trick' alt='...'>
+                    <img src='".$mainImg."' class='card-img-top img-trick' alt='...'>
                     <div class='card-body'>
                         <h5 class='card-title'>
                             <div class='d-flex justify-content-between align-items-center'>
@@ -47,7 +52,7 @@ class HomepageController extends AbstractController
             
             if($this->getUser()) {
                 $html .= "<div>
-                <a class='btn btn-light' href='{{ path('/tricks/edit/".$trick->getSlug()."'>
+                <a class='btn btn-light' href='/tricks/edit/".$trick->getSlug()."'>
                     <i class='bi bi-pencil-fill'></i>
                 </a>
                 <button type='button' class='btn btn-light' data-bs-toggle='modal' data-bs-target='#exampleModal".$trick->getId()."'>
@@ -69,7 +74,7 @@ class HomepageController extends AbstractController
                                 <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancel</button>
                                 <form method='post' action='/tricks/delete/".$trick->getSlug()."'>
                                     <input type='hidden' name='_method' value='DELETE'>
-                                    <input type='hidden' name='_token' value='{{ csrf_token('delete' ~ ".$trick->getSlug().") }}'>
+                                    <input type='hidden' name='_token' value='".$tokenGenerator->generateToken("delete".$trick->getSlug())."'>
                                     <button class='btn btn-danger'>Delete</button>
                                 </form>
                             </div>

@@ -7,20 +7,29 @@
 {% block body %}
 
 	{% for image in trick.images %}
-		{% if image.isMain == true %}
-			<style>
-				#bg-img {
-					background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ image.path }});
-					background-size: cover;
-					background-repeat: no-repeat;
-					background-position: center;
-					height: 600px;
-				}
-			</style>
-		{% endif %}
+	{% if image.isMain == true %}
+	<style>
+		#bg-img {
+			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ image.path }});
+		}
+	</style>
+	{% else %}
+	<style>
+		#bg-img {
+			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/img/default.jpg');
+		}
+	</style>
+	{% endif %}
 	{% endfor %}
 
 	<style>
+		#bg-img {
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center;
+			height: 600px;
+		}
+
 		.w-300-h-200 {
 			width: 300px;
 			height: 200px;
@@ -116,7 +125,7 @@
 					<div class="card bg-light shadow w-302-h-256 d-flex align-items-center justify-content-center flex-column">
 						<p>Ajouter une/plusieurs image(s)</p>
 						<div class="m-5">
-							{{ form_row(form.images) }}
+							{{ form_row(form.multiple_images) }}
 						</div>
 					</div>
 				</div>
@@ -175,7 +184,7 @@
 									</div>
 									<div class="modal-body">
 										Do you want to add another video ?
-										{{ form_row(form.videos) }}
+										{{ form_row(form.video_url) }}
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

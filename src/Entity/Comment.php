@@ -7,6 +7,7 @@ use App\Repository\CommentRepository;
 use App\Traits\TimestampableTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment implements TimestampInterface
@@ -19,6 +20,13 @@ class Comment implements TimestampInterface
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 10,
+        max: 1000,
+        minMessage: 'Your comment must be at least {{ limit }} characters long',
+        maxMessage: 'Your comment cannot be longer than {{ limit }} characters',
+    )]
     private ?string $content = null;
 
     #[ORM\ManyToOne]

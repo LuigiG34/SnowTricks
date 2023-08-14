@@ -72,7 +72,7 @@
 					<div class="card bg-light shadow w-302-h-256 d-flex align-items-center justify-content-center flex-column">
 						<p>Ajouter une/plusieurs image(s)</p>
 						<div class="m-5">
-							{{ form_row(form.images) }}
+							{{ form_row(form.multiple_images) }}
 						</div>
 					</div>
 				</div>
@@ -95,7 +95,7 @@
 									</div>
 									<div class="modal-body">
 										Do you want to add another video ?
-										{{ form_row(form.videos) }}
+										{{ form_row(form.video_url) }}
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

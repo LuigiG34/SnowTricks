@@ -24,9 +24,7 @@ class Image
 
     #[ORM\Column(nullable: false)]
     private ?bool $isMain = null;
-
-    private $file;
-   
+       
 
     public function getId(): ?int
     {
@@ -45,18 +43,6 @@ class Image
         return $this;
     }
 
-    public function getFile()
-    {
-        return $this->file;
-    }
-
-    public function setFile(UploadedFile $file)
-    {
-        $this->file = $file;
-
-        return $this;
-    }
-
     public function getTrick(): ?Trick
     {
         return $this->trick;
@@ -69,7 +55,7 @@ class Image
         return $this;
     }
 
-    public function isIsMain(): ?bool
+    public function getIsMain(): ?bool
     {
         return $this->isMain;
     }

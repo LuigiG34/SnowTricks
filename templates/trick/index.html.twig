@@ -9,16 +9,24 @@
 	<style>
 		#bg-img {
 			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ image.path }});
-			background-size: cover;
-			background-repeat: no-repeat;
-			background-position: center;
-			height: 600px;
+		}
+	</style>
+	{% else %}
+	<style>
+		#bg-img {
+			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/img/default.jpg');
 		}
 	</style>
 	{% endif %}
 	{% endfor %}
 
 	<style>
+		#bg-img {
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center;
+			height: 600px;
+		}
 
 		.user-img {
 			width: 50px;
