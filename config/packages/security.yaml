@@ -34,6 +34,7 @@ security:
     access_control:
         - { path: '^/tricks/edit/', roles: ROLE_USER }
         - { path: '^/tricks/delete/', roles: ROLE_USER }
+        - { path: '^/add/trick/', roles: ROLE_USER }
 
 when@test:
     security:

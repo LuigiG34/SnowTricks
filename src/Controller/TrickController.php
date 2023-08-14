@@ -56,54 +56,57 @@ class TrickController extends AbstractController
     #[Route('/add/trick', name: 'app_add_trick', methods: ['GET', 'POST'])]
     public function addTrick(TrickRepository $repository, Request $request): Response
     {
-        // Ajouter validation sur les champs
-        // Ajouter video et image directement dans le formulaire 
-
         $trick = new Trick;
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) { 
+        if ($form->isSubmitted()) {
 
             if ($form->isValid()) {
+
                 // Traitement de l'image principale
-                $mainImg = $form->get('mainImageFile')->getData();
-                $fileMainImg = md5(uniqid()) . '.' . $mainImg->guessExtension();
-                $mainImg->move($this->getParameter('images_directory'), $fileMainImg);
-                $mainImageEntity = new Image;
-                $mainImageEntity->setName($fileMainImg);
-                $mainImageEntity->setIsMain(true);
-                $trick->addImage($mainImageEntity);
+                if ($form->get('mainImageFile')->getData() !== null) {
+                    $mainImg = $form->get('mainImageFile')->getData();
+                    $fileMainImg = md5(uniqid()) . '.' . $mainImg->guessExtension();
+                    $mainImg->move($this->getParameter('images_directory'), $fileMainImg);
+                    $mainImageEntity = new Image;
+                    $mainImageEntity->setName($fileMainImg);
+                    $mainImageEntity->setIsMain(true);
+                    $trick->addImage($mainImageEntity);
+                }
 
                 // Traitement des images secondaires
-                $images = $form->get('multiple_images')->getData();
-                foreach($images as $image) {
-                    $file = md5(uniqid()) . '.' . $image->guessExtension();
-                    $image->move($this->getParameter('images_directory'), $file);
+                if ($form->get('multiple_images')->getData() !== null) {
+                    $images = $form->get('multiple_images')->getData();
+                    foreach ($images as $image) {
+                        $file = md5(uniqid()) . '.' . $image->guessExtension();
+                        $image->move($this->getParameter('images_directory'), $file);
 
-                    $imageEntity = new Image;
-                    $imageEntity->setName($file);
-                    $imageEntity->setIsMain(false);
-                    $trick->addImage($imageEntity);
+                        $imageEntity = new Image;
+                        $imageEntity->setName($file);
+                        $imageEntity->setIsMain(false);
+                        $trick->addImage($imageEntity);
+                    }
                 }
 
                 // On ajoute la vidéo
-                $videoUrl = str_replace("watch?v=", "embed/", $form->get('video_url')->getData());
-                $videoEntity = new Video;
-                $videoEntity->setLink($videoUrl);
-                $trick->addVideo($videoEntity);
-                
+                if ($form->get('video_url')->getData() !== null) {
+                    $videoUrl = str_replace("watch?v=", "embed/", $form->get('video_url')->getData());
+                    $videoEntity = new Video;
+                    $videoEntity->setLink($videoUrl);
+                    $trick->addVideo($videoEntity);
+                }
+
                 // On ajoute l'auteur
                 $trick->setUser($this->getUser());
                 // On enregistre le trick
                 $repository->save($trick, true);
-    
+
                 $this->addFlash('success', 'Trick added successfully !');
                 return $this->redirectToRoute('app_trick', [
                     'slug' => $trick->getSlug()
                 ]);
-
-            }else{
+            } else {
 
                 $errors = $form->getErrors(true, true);
 
@@ -123,28 +126,78 @@ class TrickController extends AbstractController
     #[Route('/tricks/edit/{slug}', name: 'app_edit_trick', methods: ['GET', 'POST'])]
     public function updateTrick(Trick $trick, TrickRepository $repository, Request $request): Response
     {
-        // Ajouter validation sur les champs
-        // Ajouter video et image directement dans le formulaire 
-
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            dd($form->get('mainImageFile')->getData(), $form->get('multiple_images')->getData(), $form->get('video_url')->getData());
 
             if ($form->isValid()) {
 
-                $repository->save($trick);
-    
+                // Traitement de l'image principale
+                if ($form->get('mainImageFile')->getData() !== null) {
+
+                    // On supprimer l'image principale actuelle
+                    $imageCollection = $trick->getImages();
+                    if (!empty($imageCollection)) {
+                        foreach ($imageCollection as $img) {
+                            if ($img->getIsMain()) {
+                                $nameImageBool = file_exists($this->getParameter('images_directory') . $img->getName());
+
+                                if ($nameImageBool !== false) {
+                                    unlink($this->getParameter('images_directory') . $img->getName());
+                                }
+
+                                $trick->removeImage($img);
+                            }
+                        }
+                    }
+
+                    // On ajoute la nouvelle image
+                    $mainImg = $form->get('mainImageFile')->getData();
+                    $fileMainImg = md5(uniqid()) . '.' . $mainImg->guessExtension();
+                    $mainImg->move($this->getParameter('images_directory'), $fileMainImg);
+                    $mainImageEntity = new Image;
+                    $mainImageEntity->setName($fileMainImg);
+                    $mainImageEntity->setIsMain(true);
+                    $trick->addImage($mainImageEntity);
+                }
+
+                // Traitement des images secondaires
+                if ($form->get('multiple_images')->getData() !== null) {
+                    $images = $form->get('multiple_images')->getData();
+                    foreach ($images as $image) {
+                        $file = md5(uniqid()) . '.' . $image->guessExtension();
+                        $image->move($this->getParameter('images_directory'), $file);
+
+                        $imageEntity = new Image;
+                        $imageEntity->setName($file);
+                        $imageEntity->setIsMain(false);
+                        $trick->addImage($imageEntity);
+                    }
+                }
+
+                // On ajoute la vidéo
+                if ($form->get('video_url')->getData() !== null) {
+                    $videoUrl = str_replace("watch?v=", "embed/", $form->get('video_url')->getData());
+                    $videoEntity = new Video;
+                    $videoEntity->setLink($videoUrl);
+                    $trick->addVideo($videoEntity);
+                }
+
+                // On ajoute l'auteur
+                $trick->setUser($this->getUser());
+                // On enregistre le trick
+                $repository->save($trick, true);
+
                 $this->addFlash('success', 'Trick updated successfully !');
-            }else{
-                
+            } else {
+
                 $errors = $form->getErrors(true, true);
                 foreach ($errors as $error) {
                     $this->addFlash('danger', $error->getMessage());
                 }
             }
-            
+
             return $this->redirectToRoute('app_edit_trick', [
                 'slug' => $trick->getSlug()
             ]);
@@ -156,7 +209,7 @@ class TrickController extends AbstractController
         ]);
     }
 
-    #[Route('/tricks/delete/{slug}', name: 'app_delete_trick', methods: ['DELETE'])]
+    #[Route('/tricks/delete/{slug}', name: 'app_delete_trick')]
     public function deleteTrick(Trick $trick, Request $request, TrickRepository $trickRepository): Response
     {
 
@@ -179,7 +232,7 @@ class TrickController extends AbstractController
         return $this->redirectToRoute('app_homepage');
     }
 
-    #[Route('/image/delete/{id}', name: 'app_delete_image', methods: ['DELETE'])]
+    #[Route('/image/delete/{id}', name: 'app_delete_image')]
     public function deleteImage($id, Request $request, ImageRepository $imageRepository): Response
     {
         $image = $imageRepository->find($id);
@@ -199,7 +252,7 @@ class TrickController extends AbstractController
         return $this->redirectToRoute('app_trick', ['slug' => $image->getTrick()->getSlug()]);
     }
 
-    #[Route('/video/delete/{id}', name: 'app_delete_video', methods: ['DELETE'])]
+    #[Route('/video/delete/{id}', name: 'app_delete_video')]
     public function deleteVideo($id, Request $request, VideoRepository $videoRepository): Response
     {
         $video = $videoRepository->find($id);
@@ -207,7 +260,6 @@ class TrickController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $video->getId(), $request->request->get('_token'))) {
 
             $videoRepository->remove($video, true);
-        
         }
 
         $this->addFlash('success', 'Video deleted successfully.');

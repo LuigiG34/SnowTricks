@@ -130,10 +130,10 @@
 
     function loadMoreTricks() { // Show the loading spinner
         document.getElementById('loadingSpinner').style.display = 'block';
-
+		tricks = document.querySelectorAll('.trick');
+		offset = tricks.length;
         fetch(`/get-more-tricks/${offset}`).then(response => response.text()).then(data => {
             if (data.length > 0) {
-                console.log(data)
                 const tricksContainer = document.getElementById('tricksContainer');
                 tricksContainer.innerHTML += data;
             } else { // Disable the "Load More" button if no more tricks are available
