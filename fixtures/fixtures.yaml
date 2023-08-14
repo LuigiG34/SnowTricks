@@ -321,131 +321,131 @@ App\Entity\Video:
 
 App\Entity\Image:
   image_1:
-    path: "/uploads/tail-slide.jpg"
+    name: "tail-slide.jpg"
     trick: '@trick_1'
     isMain: true
   image_11:
-    path: "/uploads/tail-slide2.jpg"
+    name: "tail-slide2.jpg"
     trick: '@trick_1'
     isMain: false
   image_111:
-    path: "/uploads/tail-slide3.jpg"
+    name: "tail-slide3.jpg"
     trick: '@trick_1'
     isMain: false
   image_2:
-    path: "/uploads/front-flip.jpg"
+    name: "front-flip.jpg"
     trick: '@trick_2'
     isMain: true
   image_3:
-    path: "/uploads/360.jpg"
+    name: "360.jpg"
     trick: '@trick_3'
     isMain: true
   image_4:
-    path: "/uploads/mute.jpg"
+    name: "mute.jpg"
     trick: '@trick_4'
     isMain: true
   image_5:
-    path: "/uploads/tail-slide-4.jpg"
+    name: "tail-slide-4.jpg"
     trick: '@trick_5'
     isMain: true
   image_6:
-    path: "/uploads/tail-slide-5.jpg"
+    name: "tail-slide-5.jpg"
     trick: '@trick_6'
     isMain: true
   image_7:
-    path: "/uploads/tail-slide-6.jpg"
+    name: "tail-slide-6.jpg"
     trick: '@trick_7'
     isMain: true
   image_8:
-    path: "/uploads/tail-slide-7.jpg"
+    name: "tail-slide-7.jpg"
     trick: '@trick_8'
     isMain: true
   image_9:
-    path: "/uploads/tail-slide-8.jpg"
+    name: "tail-slide-8.jpg"
     trick: '@trick_9'
     isMain: true
   image_10:
-    path: "/uploads/tail-slide-9.jpg"
+    name: "tail-slide-9.jpg"
     trick: '@trick_10'
     isMain: true
   image_1f1:
-    path: "/uploads/tail-slide-10.jpg"
+    name: "tail-slide-10.jpg"
     trick: '@trick_11'
     isMain: true
   image_12:
-    path: "/uploads/tail-slide-11.jpg"
+    name: "tail-slide-11.jpg"
     trick: '@trick_12'
     isMain: true
   image_13:
-    path: "/uploads/tail-slide-12.jpg"
+    name: "tail-slide-12.jpg"
     trick: '@trick_13'
     isMain: true
   image_14:
-    path: "/uploads/tail-slide-13.jpg"
+    name: "tail-slide-13.jpg"
     trick: '@trick_14'
     isMain: true
   image_15:
-    path: "/uploads/tail-slide-14.jpg"
+    name: "tail-slide-14.jpg"
     trick: '@trick_15'
     isMain: true
   image_1117:
-    path: "/uploads/tail-slide-15.jpg"
+    name: "tail-slide-15.jpg"
     trick: '@trick_17'
     isMain: true
   image_72:
-    path: "/uploads/front-flip-2.jpg"
+    name: "front-flip-2.jpg"
     trick: '@trick_27'
     isMain: true
   image_37:
-    path: "/uploads/360-2.jpg"
+    name: "360-2.jpg"
     trick: '@trick_73'
     isMain: true
   image_47:
-    path: "/uploads/mute-2.jpg"
+    name: "mute-2.jpg"
     trick: '@trick_47'
     isMain: true
   image_56:
-    path: "/uploads/tail-slide-16.jpg"
+    name: "tail-slide-16.jpg"
     trick: '@trick_56'
     isMain: true
   image_65:
-    path: "/uploads/tail-slide-17.jpg"
+    name: "tail-slide-17.jpg"
     trick: '@trick_65'
     isMain: true
   image_77:
-    path: "/uploads/tail-slide-18.jpg"
+    name: "tail-slide-18.jpg"
     trick: '@trick_77'
     isMain: true
   image_88:
-    path: "/uploads/tail-slide-19.jpg"
+    name: "tail-slide-19.jpg"
     trick: '@trick_88'
     isMain: true
   image_99:
-    path: "/uploads/tail-slide-20.jpg"
+    name: "tail-slide-20.jpg"
     trick: '@trick_99'
     isMain: true
   image_100:
-    path: "/uploads/tail-slide-21.jpg"
+    name: "tail-slide-21.jpg"
     trick: '@trick_100'
     isMain: true
   image_110:
-    path: "/uploads/tail-slide-22.jpg"
+    name: "tail-slide-22.jpg"
     trick: '@trick_110'
     isMain: true
   image_122:
-    path: "/uploads/tail-slide-23.jpg"
+    name: "tail-slide-23.jpg"
     trick: '@trick_122'
     isMain: true
   image_133:
-    path: "/uploads/tail-slide-24.jpg"
+    name: "tail-slide-24.jpg"
     trick: '@trick_133'
     isMain: true
   image_144:
-    path: "/uploads/tail-slide-25.jpg"
+    name: "tail-slide-25.jpg"
     trick: '@trick_144'
     isMain: true
   image_155:
-    path: "/uploads/tail-slide-26.jpg"
+    name: "tail-slide-26.jpg"
     trick: '@trick_155'
     isMain: true
 

@@ -16,7 +16,7 @@ class Image
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?string $path = null;
+    private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false, onDelete:"CASCADE")]
@@ -31,14 +31,14 @@ class Image
         return $this->id;
     }
 
-    public function getPath(): ?string
+    public function getName(): ?string
     {
-        return $this->path;
+        return $this->name;
     }
 
-    public function setPath(string $path): self
+    public function setName(string $name): self
     {
-        $this->path = $path;
+        $this->name = $name;
 
         return $this;
     }

@@ -62,9 +62,9 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-
+            dd($trick, $form->getData());
             if ($form->isValid()) {
-
+                
                 $repository->save($trick);
     
                 $this->addFlash('success', 'Trick added successfully !');
@@ -97,6 +97,7 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+            dd($trick, $form->getData());
 
             if ($form->isValid()) {
 
@@ -131,10 +132,10 @@ class TrickController extends AbstractController
             $images = $trick->getImages();
 
             foreach ($images as $image) {
-                $nameImageBool = file_exists($this->getParameter('public_directory') . $image->getPath());
+                $nameImageBool = file_exists($this->getParameter('images_directory') . $image->getName());
 
                 if ($nameImageBool !== false) {
-                    unlink($this->getParameter('public_directory') . $image->getPath());
+                    unlink($this->getParameter('images_directory') . $image->getName());
                 }
             }
 
@@ -152,10 +153,10 @@ class TrickController extends AbstractController
 
         if ($this->isCsrfTokenValid('delete' . $image->getId(), $request->request->get('_token'))) {
 
-            $nameImageBool = file_exists($this->getParameter('public_directory') . $image->getPath());
+            $nameImageBool = file_exists($this->getParameter('images_directory') . $image->getName());
 
             if ($nameImageBool !== false) {
-                unlink($this->getParameter('public_directory') . $image->getPath());
+                unlink($this->getParameter('images_directory') . $image->getName());
             }
 
             $imageRepository->remove($image, true);

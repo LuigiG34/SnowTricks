@@ -33,7 +33,7 @@ class HomepageController extends AbstractController
             if (!empty($images)) {
                 foreach($images as $img){
                     if($img->getIsMain()){
-                        $mainImg = $img->getPath();
+                        $mainImg = $img->getName();
                     }
                 }
             } else {
@@ -43,7 +43,7 @@ class HomepageController extends AbstractController
             $html .= "
             <div class='col-s-12 col-m-6 col-lg-4 trick'>
                 <div class='card bg-light shadow m-5'>
-                    <img src='".$mainImg."' class='card-img-top img-trick' alt='...'>
+                    <img src='/uploads/".$mainImg."' class='card-img-top img-trick' alt='...'>
                     <div class='card-body'>
                         <h5 class='card-title'>
                             <div class='d-flex justify-content-between align-items-center'>

@@ -6,11 +6,17 @@
 
 {% block body %}
 
+	{% set mainImage = null %}
 	{% for image in trick.images %}
-	{% if image.isMain == true %}
+		{% if image.isMain %}
+			{% set mainImage = '/uploads/' ~ image.name %}
+		{% endif %}
+	{% endfor %}
+
+	{% if mainImage %}
 	<style>
 		#bg-img {
-			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ image.path }});
+			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ mainImage }});
 		}
 	</style>
 	{% else %}
@@ -20,7 +26,6 @@
 		}
 	</style>
 	{% endif %}
-	{% endfor %}
 
 	<style>
 		#bg-img {
@@ -87,7 +92,7 @@
 					{% if image.isMain == false %}
 						<div class="col-3 d-flex align-items-center justify-content-center gap-5 flex-row ">
 							<div class="card bg-light shadow">
-								<img class="w-300-h-200" src="{{ image.path }}">
+								<img class="w-300-h-200" src="/uploads/{{ image.name }}">
 								<div class="w-100 d-flex align-items-center justify-content-center gap-1">
 									<button type="button" class="btn btn-light my-2" data-bs-toggle="modal" data-bs-target="#exampleModalImg{{ image.id }}">
 										<i class="bi bi-trash-fill"></i>

@@ -4,11 +4,17 @@
 
 {% block body %}
 
+	{% set mainImage = null %}
 	{% for image in trick.images %}
-	{% if image.isMain == true %}
+		{% if image.isMain %}
+			{% set mainImage = '/uploads/' ~ image.name %}
+		{% endif %}
+	{% endfor %}
+
+	{% if mainImage %}
 	<style>
 		#bg-img {
-			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ image.path }});
+			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ mainImage }});
 		}
 	</style>
 	{% else %}
@@ -18,7 +24,6 @@
 		}
 	</style>
 	{% endif %}
-	{% endfor %}
 
 	<style>
 		#bg-img {
@@ -59,7 +64,7 @@
 						<div class="carousel-inner">
 							{% for loopIndex, image in trick.images %}
 								<div class="carousel-item {% if loop.first %}active{% endif %}">
-									<img class="d-block w-100" height="400px" src="{{ image.path }}" alt="Slide">
+									<img class="d-block w-100" height="400px" src="/uploads/{{ image.name }}" alt="Slide">
 								</div>
 							{% endfor %}
 						</div>
