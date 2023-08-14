@@ -130,56 +130,65 @@
 			<hr class="mb-5">
 
 			<div id="commentsContainer">
-			{% set sortedComments = trick.comments|sort((a, b) => b.createdAt.timestamp - a.createdAt.timestamp) %}
-
-				{% for loopIndex, comment in sortedComments %}
-					<div class="col {% if loopIndex >= 4 %}d-none{% endif %}">
+				{% for comment in comments %}
+					<div class="col comment">
 						<div class="d-flex align-items-center justify-content-start">
 							<div>
 								<img class="user-img" src="{{ comment.user.image }}">
 							</div>
 							<div class="m-3 p-3 border w-100 rounded">
-								<small class="">
+								<small>
 									<strong>{{ comment.user.username }}</strong>
 									|
 									{{ comment.createdAt|date('d/m/Y') }}</small>
-								<p class="">{{ comment.content }}</p>
+								<p>{{ comment.content }}</p>
 							</div>
 						</div>
 					</div>
 				{% endfor %}
+			</div>
+			<div class="w-100 d-flex align-items-center justify-content-center">
+					<div id="loadingSpinner" class="spinner-border text-primary" role="status">
+						<span class="visually-hidden">Loading...</span>
+					</div>
+				</div>
 
 				<div class="text-center mt-4">
 					<button id="loadMoreButton" class="btn btn-primary">Load More</button>
 				</div>
-			</div>
 		</div>
 	</div>
 
 
 	<script>
-		var loadMoreButton = document.getElementById("loadMoreButton");
-		var commentsContainer = document.getElementById("commentsContainer");
-		var hiddenComments = Array.from(commentsContainer.getElementsByClassName("d-none"));
 
-		
-		if(hiddenComments.length === 0) {
-			loadMoreButton.style.display = 'none';
-		}
-				
-		loadMoreButton.addEventListener("click", function () {
-			showNextBatch();
-		});
+	let comments = document.querySelectorAll('.comment');
+    let offset = comments.length;
+    document.getElementById('loadingSpinner').style.display = 'none';
 
-		function showNextBatch() {
-			var batchSize = 4;
-			for (var i = 0; i < batchSize; i++) {
-				if (hiddenComments.length === 0) {
-					loadMoreButton.style.display = 'none';
-					return;
-				}
-				hiddenComments.shift().classList.remove("d-none");
-			}
-		}		
+
+    function loadMoreComments() { // Show the loading spinner
+        document.getElementById('loadingSpinner').style.display = 'block';
+		comments = document.querySelectorAll('.comment');
+		offset = comments.length;
+        fetch(`${window.location.pathname}/get-more-comments/${offset}`).then(response => response.text()).then(data => {
+            if (data.length > 0) {
+                const tricksContainer = document.getElementById('commentsContainer');
+                tricksContainer.innerHTML += data;
+            } else { // Disable the "Load More" button if no more tricks are available
+                document.getElementById('loadMoreButton').disabled = true;
+            }
+
+            // Hide the loading spinner once the tricks are added
+            document.getElementById('loadingSpinner').style.display = 'none';
+        }).catch(error => {
+            console.error('Error fetching more tricks:', error);
+
+            // Hide the loading spinner in case of an error
+            document.getElementById('loadingSpinner').style.display = 'none';
+        });
+    }
+
+    document.getElementById('loadMoreButton').addEventListener('click', loadMoreComments);
 	</script>
 {% endblock %}
