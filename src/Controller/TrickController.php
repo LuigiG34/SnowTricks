@@ -45,13 +45,45 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('app_trick', ['slug' => $trick->getSlug()]);
         }
 
+        $comments = $commentRepository->getCommentPaginator($trick, 0);
+
         return $this->render('trick/index.html.twig', [
             'form' => $form->createView(),
             'trick' => $trick,
+            'comments' => $comments
         ]);
     }
 
-    // Ajouter les commentaires en AJAX
+
+
+    #[Route('/tricks/{slug}/get-more-comments/{offset}', name: 'get_more_comments', methods: ['GET'])]
+    public function getMoreTricks(CommentRepository $repository, $offset, Trick $trick)
+    {
+        $paginator = $repository->getCommentPaginator($trick, $offset);
+        $html="";
+
+        foreach ($paginator as $comment) {
+            
+            $html .= "
+            <div class='col comment'>
+						<div class='d-flex align-items-center justify-content-start'>
+							<div>
+								<img class='user-img' src='".$comment->getUser()->getImage()."'>
+							</div>
+							<div class='m-3 p-3 border w-100 rounded'>
+								<small>
+									<strong>".$comment->getUser()->getUsername()."</strong>
+									|
+									".$comment->getCreatedAt()->format('d-m-Y')."</small>
+								<p>".$comment->getContent()."</p>
+							</div>
+						</div>
+					</div>";
+        }
+
+        return new Response($html);
+    }
+
 
     #[Route('/add/trick', name: 'app_add_trick', methods: ['GET', 'POST'])]
     public function addTrick(TrickRepository $repository, Request $request): Response
