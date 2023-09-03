@@ -15,8 +15,10 @@ class YoutubeUrlToEmbedTransformer implements DataTransformerInterface
     public function reverseTransform($value)
     {
         // Transform the YouTube video URL to the embedded URL
-        if (preg_match('/^https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/', $value, $matches)) {
-            return 'https://www.youtube.com/embed/' . $matches[1];
+        if($value !== null){
+            if (preg_match('/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/(watch\?v=|embed\/|v\/)?([a-zA-Z0-9_-]+)$/', $value, $matches)) {
+                return 'https://www.youtube.com/embed/' . $matches[5];
+            }
         }
     }
 }

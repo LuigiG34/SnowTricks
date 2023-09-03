@@ -16,8 +16,9 @@ use App\Repository\CommentRepository;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
 use App\Service\TrickService;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
-#[Route('/tricks', name: 'trick_', methods: ['GET', 'POST'])]
+#[Route('/tricks', name: 'trick_')]
 class TrickController extends AbstractController
 {
 
@@ -162,26 +163,25 @@ class TrickController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{slug}', name: 'delete')]
-    public function deleteTrick(Trick $trick, Request $request, TrickRepository $trickRepository): Response
+    #[Route('/delete/{slug}', name: 'delete', methods: ['DELETE'])]
+    public function deleteTrick(Trick $trick, Request $request, TrickRepository $trickRepository): JsonResponse
     {
+        if ($request->isXmlHttpRequest()) {
+            if ($this->isCsrfTokenValid('delete' . $trick->getSlug(), $request->headers->get('X-CSRF-TOKEN'))) {
 
-        if ($this->isCsrfTokenValid('delete' . $trick->getSlug(), $request->request->get('_token'))) {
-
-            $images = $trick->getImages();
-
-            foreach ($images as $image) {
-                $nameImageBool = file_exists($this->getParameter('images_directory') . $image->getName());
-
-                if ($nameImageBool !== false) {
-                    unlink($this->getParameter('images_directory') . $image->getName());
+                $images = $trick->getImages();
+    
+                foreach ($images as $image) {
+                    $nameImageBool = file_exists($this->getParameter('images_directory') . $image->getName());
+    
+                    if ($nameImageBool !== false) {
+                        unlink($this->getParameter('images_directory') . $image->getName());
+                    }
                 }
+    
+                $trickRepository->remove($trick, true);
+                return new JsonResponse(['message' => 'Trick deleted successfully'], Response::HTTP_OK);
             }
-
-            $trickRepository->remove($trick, true);
         }
-
-        $this->addFlash('success', 'Trick deleted successfully.');
-        return $this->redirectToRoute('app_homepage');
     }
 }

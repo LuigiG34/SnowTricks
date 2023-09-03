@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Optional;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class TrickType extends AbstractType
@@ -118,9 +118,11 @@ class TrickType extends AbstractType
     public function validateVideoUrl($value, ExecutionContextInterface $context)
     {
         // Check if the URL is a valid YouTube URL
-        if (!preg_match('/^https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/', $value, $matches)) {
-            $context->buildViolation('The video link must be a YouTube link')->addViolation();
-        }
+        if($value !== null){
+            if (!preg_match('/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/(watch\?v=|embed\/|v\/)?([a-zA-Z0-9_-]+)$/', $value, $matches)) {
+                $context->buildViolation('The video link must be a YouTube link')->addViolation();
+            }
+        }   
     }
 
     public function configureOptions(OptionsResolver $resolver)

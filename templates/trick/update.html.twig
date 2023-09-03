@@ -14,17 +14,17 @@
 	{% endfor %}
 
 	{% if mainImage %}
-	<style>
-		#bg-img {
-			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ mainImage }});
-		}
-	</style>
+		<style>
+			#bg-img {
+				background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ mainImage }});
+			}
+		</style>
 	{% else %}
-	<style>
-		#bg-img {
-			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/img/default.jpg');
-		}
-	</style>
+		<style>
+			#bg-img {
+				background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/img/default.jpg');
+			}
+		</style>
 	{% endif %}
 
 	<style>
@@ -43,6 +43,10 @@
 		.w-302-h-256 {
 			width: 302px;
 			height: 256px;
+		}
+
+		.spinner-border {
+			display: none;
 		}
 	</style>
 
@@ -90,7 +94,7 @@
 			<div class="row">
 				{% for image in trick.images %}
 					{% if image.isMain == false %}
-						<div class="col-3 d-flex align-items-center justify-content-center gap-5 flex-row ">
+						<div class="col-3 d-flex align-items-center justify-content-center gap-5 flex-row" id="image{{ image.id }}">
 							<div class="card bg-light shadow">
 								<img class="w-300-h-200" src="/uploads/{{ image.name }}">
 								<div class="w-100 d-flex align-items-center justify-content-center gap-1">
@@ -115,11 +119,10 @@
 									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-										<form method="post" action="{{path('app_delete_image', {'id': image.id}) }}">
-											<input type="hidden" name="_method" value="DELETE">
-											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ image.id) }}">
-											<button class="btn btn-danger">Delete</button>
-										</form>
+										<button type="button" class="btn btn-danger delete-image" data-imageid="{{ image.id }}" data-csrftoken="{{ csrf_token('delete' ~ image.id) }}" data-target="#image{{ image.id }}">
+											<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="spinner-{{ image.id }}"></span>
+											Delete
+										</button>
 									</div>
 								</div>
 							</div>
@@ -138,7 +141,7 @@
 			</div>
 			<div class="row my-5">
 				{% for video in trick.videos %}
-					<div class="col-3 d-flex align-items-center justify-content-center gap-1 flex-row">
+					<div class="col-3 d-flex align-items-center justify-content-center gap-1 flex-row" id="video{{ video.id }}">
 						<div class="card bg-light shadow">
 							<iframe class="w-300-h-200" src="{{ video.link }}"></iframe>
 							<div class="w-100 d-flex align-items-center justify-content-center gap-1">
@@ -162,11 +165,10 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-									<form method="post" action="{{path('app_delete_video', {'id': video.id}) }}">
-										<input type="hidden" name="_method" value="DELETE">
-										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ video.id) }}">
-										<button class="btn btn-danger">Delete</button>
-									</form>
+									<button type="button" class="btn btn-danger delete-video" data-videoid="{{ video.id }}" data-csrftoken="{{ csrf_token('delete' ~ video.id) }}" data-target="#video{{ video.id }}">
+										<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="spinner-{{ video.id }}"></span>
+										Delete
+									</button>
 								</div>
 							</div>
 						</div>
@@ -213,4 +215,109 @@
 		</div>
 	</div>
 	{{ form_end(form) }}
+
+
+<script>
+	// Delete video via AJAX
+    document.querySelectorAll('.delete-video').forEach(function (button) {
+        button.addEventListener('click', function () {
+            var videoId = this.dataset.videoid;
+            var csrfToken = this.dataset.csrftoken;
+            var targetElementId = this.dataset.target;
+			var modalDelete = document.querySelector('#exampleModalVideo' + videoId)
+			var modalBackdropDelete = document.querySelector('.modal-backdrop')
+			var spinner = document.querySelector('#spinner-' + videoId);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('DELETE', '/video/delete/' + videoId, true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken); // Set the CSRF token as a header
+
+			spinner.style.display = "inline-block";
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.message === 'Video deleted successfully') { // Handle success, e.g., remove the video element from the page
+                        var videoElement = document.querySelector(targetElementId);
+                        if (videoElement) {
+                            videoElement.parentNode.removeChild(videoElement);
+                        }
+						// Remove modal
+						modalDelete.parentNode.removeChild(modalDelete);
+						modalBackdropDelete.parentNode.removeChild(modalBackdropDelete)
+						document.querySelector('body').style.overflow = "auto";
+						alert(response.message);
+
+                    } else { // Handle failure, e.g., show an error message
+						spinner.style.display = "none";
+                        alert('Error: ' + response.message);
+                    }
+                } else { // Handle HTTP error
+					spinner.style.display = "none";
+                    alert('HTTP Error: ' + xhr.status);
+                }
+            };
+
+            xhr.onerror = function () { // Handle network error
+				spinner.style.display = "none";
+                alert('Network Error');
+            };
+
+            // Send the DELETE request
+            xhr.send();
+        });
+    });
+
+	// Delete image via AJAX
+	document.querySelectorAll('.delete-image').forEach(function (button) {
+        button.addEventListener('click', function () {
+            var imageId = this.dataset.imageid;
+            var csrfToken = this.dataset.csrftoken;
+            var targetElementId = this.dataset.target;
+			var modalDelete = document.querySelector('#exampleModalImg' + imageId)
+			var modalBackdropDelete = document.querySelector('.modal-backdrop')
+			var spinner = document.querySelector('#spinner-' + imageId);
+
+			var xhr = new XMLHttpRequest();
+            xhr.open('DELETE', '/image/delete/' + imageId, true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken); // Set the CSRF token as a header
+
+			spinner.style.display = "inline-block";
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.message === 'Image deleted successfully') { // Handle success, e.g., remove the image element from the page
+                        var imageElement = document.querySelector(targetElementId);
+                        if (imageElement) {
+                            imageElement.parentNode.removeChild(imageElement);
+                        }
+						// Remove modal
+						modalDelete.parentNode.removeChild(modalDelete);
+						modalBackdropDelete.parentNode.removeChild(modalBackdropDelete)
+						document.querySelector('body').style.overflow = "auto";
+						alert(response.message);
+
+                    } else { // Handle failure, e.g., show an error message
+						spinner.style.display = "none";
+                        alert('Error: ' + response.message);
+                    }
+                } else { // Handle HTTP error
+					spinner.style.display = "none";
+                    alert('HTTP Error: ' + xhr.status);
+                }
+            };
+
+            xhr.onerror = function () { // Handle network error
+				spinner.style.display = "none";
+                alert('Network Error');
+            };
+
+            // Send the DELETE request
+            xhr.send();
+        });
+    });
+</script>
 {% endblock %}
