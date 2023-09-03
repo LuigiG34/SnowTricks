@@ -41,3 +41,5 @@ services:
             $trickRepository: '@App\Repository\TrickRepository'
         tags:
             - { name: controller.argument_value_resolver }
+
+    App\Form\DataTransformer\YoutubeUrlToEmbedTransformer: ~
