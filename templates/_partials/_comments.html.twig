@@ -1,0 +1,16 @@
+{% for comment in comments %}
+	<div class="col comment">
+		<div class="d-flex align-items-center justify-content-start">
+			<div>
+				<img class="user-img" src="{{ comment.user.image }}">
+			</div>
+			<div class="m-3 p-3 border w-100 rounded">
+				<small>
+					<strong>{{ comment.user.username }}</strong>
+					|
+					{{ comment.createdAt|date('d/m/Y') }}</small>
+				<p>{{ comment.content }}</p>
+			</div>
+		</div>
+	</div>
+{% endfor %}
