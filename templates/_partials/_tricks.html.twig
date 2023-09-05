@@ -1,0 +1,60 @@
+{% for trick in tricks %}
+	<div class="col-s-12 col-m-6 col-lg-4 trick" id="trick{{ trick.slug}}">
+		<div class="card bg-light shadow m-5">
+
+			{% set mainImage = null %}
+			{% for image in trick.images %}
+				{% if image.isMain %}
+					{% set mainImage = image %}
+				{% endif %}
+			{% endfor %}
+
+			{% if mainImage %}
+				<img src="/uploads/{{ mainImage.name }}" class="card-img-top img-trick" alt="...">
+			{% else %}
+				<img src="/assets/img/default.jpg" class="card-img-top img-trick" alt="...">
+			{% endif %}
+
+			<div class="card-body">
+				<h5 class="card-title">
+					<div class="d-flex justify-content-between align-items-center">
+						<a class="btn btn-primary" href="{{ path('trick_show', {slug: trick.slug}) }}">{{
+                                    trick.name }}</a>
+
+						{% if app.user %}
+							<div>
+								<a class="btn btn-light" href="{{ path('trick_edit', {slug: trick.slug}) }}">
+									<i class="bi bi-pencil-fill"></i>
+								</a>
+								<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal{{ trick.id }}">
+									<i class="bi bi-trash-fill"></i>
+								</button>
+							</div>
+							<div class="modal fade" id="exampleModal{{ trick.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Delete "{{ trick.name }}"
+											</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											Are you sure you want to delete "{{ trick.name }}" ?
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+											<button type="button" class="btn btn-danger delete-trick" data-trickid="{{ trick.id }}" data-trickslug="{{ trick.slug }}" data-csrftoken="{{ csrf_token('delete' ~ trick.slug) }}" data-target="#trick{{ trick.slug}}">
+												<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="spinner-{{ trick.slug }}"></span>
+												Delete
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						{% endif %}
+					</div>
+				</h5>
+			</div>
+		</div>
+	</div>
+{% endfor %}
