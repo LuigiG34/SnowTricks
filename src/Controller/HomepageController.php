@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class HomepageController extends AbstractController
 {
-    #[Route('/{offset}', name: 'app_homepage', methods: ['GET'], defaults: ['offset' => 0])]
+    #[Route('/{offset}', name: 'app_homepage', methods: ['GET'], defaults: ['offset' => 0], priority: -1)]
     public function index(TrickRepository $repository, Request $request, int $offset): Response
     {
         $paginator = $repository->getTrickPaginator(max(0, $offset));
@@ -30,5 +30,4 @@ class HomepageController extends AbstractController
             'tricks' => $paginator,
         ]);
     }
-
 }

@@ -130,22 +130,7 @@
 			<hr class="mb-5">
 
 			<div id="commentsContainer">
-				{% for comment in comments %}
-					<div class="col comment">
-						<div class="d-flex align-items-center justify-content-start">
-							<div>
-								<img class="user-img" src="{{ comment.user.image }}">
-							</div>
-							<div class="m-3 p-3 border w-100 rounded">
-								<small>
-									<strong>{{ comment.user.username }}</strong>
-									|
-									{{ comment.createdAt|date('d/m/Y') }}</small>
-								<p>{{ comment.content }}</p>
-							</div>
-						</div>
-					</div>
-				{% endfor %}
+				{% include "_partials/_comments.html.twig" %}
 			</div>
 			<div class="w-100 d-flex align-items-center justify-content-center">
 					<div id="loadingSpinner" class="spinner-border text-primary" role="status">
@@ -154,7 +139,7 @@
 				</div>
 
 				<div class="text-center mt-4">
-					<button id="loadMoreButton" class="btn btn-primary">Load More</button>
+					<button id="loadMoreButton" class="btn btn-primary" data-trickslug="{{ trick.slug }}">Load More</button>
 				</div>
 		</div>
 	</div>
@@ -163,30 +148,36 @@
 	<script>
 
 	let comments = document.querySelectorAll('.comment');
-    let offset = comments.length;
     document.getElementById('loadingSpinner').style.display = 'none';
 
-
-    function loadMoreComments() { // Show the loading spinner
+	function loadMoreComments() { // Show the loading spinner
         document.getElementById('loadingSpinner').style.display = 'block';
 		comments = document.querySelectorAll('.comment');
-		offset = comments.length;
-        fetch(`${window.location.pathname}/get-more-comments/${offset}`).then(response => response.text()).then(data => {
-            if (data.length > 0) {
-                const tricksContainer = document.getElementById('commentsContainer');
-                tricksContainer.innerHTML += data;
-            } else { // Disable the "Load More" button if no more tricks are available
-                document.getElementById('loadMoreButton').disabled = true;
+		var offset = comments.length;
+		var slug = this.dataset.trickslug;
+
+		var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/tricks/'+slug+'/'+offset, true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+		
+		xhr.onload = function() {
+  			if (xhr.status === 200) {
+    			// Handle the response here
+    			console.log(xhr.responseText);
+				document.getElementById('loadingSpinner').style.display = 'none';
+				const commentsContainer = document.getElementById('commentsContainer');
+                commentsContainer.innerHTML += xhr.responseText;
+
+				if(xhr.responseText === "" || offset > 10){
+					document.getElementById('loadMoreButton').disabled = true;
+				}
+  			} else { // Handle HTTP error
+				console.log(xhr.status);
+                document.getElementById('loadingSpinner').style.display = 'none';
             }
+		};
 
-            // Hide the loading spinner once the tricks are added
-            document.getElementById('loadingSpinner').style.display = 'none';
-        }).catch(error => {
-            console.error('Error fetching more tricks:', error);
-
-            // Hide the loading spinner in case of an error
-            document.getElementById('loadingSpinner').style.display = 'none';
-        });
+		xhr.send();
     }
 
     document.getElementById('loadMoreButton').addEventListener('click', loadMoreComments);
