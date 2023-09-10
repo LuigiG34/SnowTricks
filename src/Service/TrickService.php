@@ -3,12 +3,15 @@
 namespace App\Service;
 
 use App\Entity\Image;
+use App\Entity\Trick;
 use App\Entity\Video;
+use App\Repository\ImageRepository;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class TrickService
 {
-    public function processMedia($trick, $imageDirectory, $mainImage, $multipleImages, $urlVideo) {
-        
+    public function processMedia(Trick $trick, string $imageDirectory, ?UploadedFile $mainImage, ?array $multipleImages, ?string $urlVideo): void
+    {   
         // Traitement de l'image principale
         if ($mainImage !== null) {
             $fileMainImg = md5(uniqid()) . '.' . $mainImage->guessExtension();
@@ -40,8 +43,8 @@ class TrickService
         }
     }
 
-    public function updateMainImage($trick, $mainImage, $imageDirectory, $imageRepository) {
-
+    public function updateMainImage(Trick $trick, ?UploadedFile $mainImage, string $imageDirectory, ImageRepository $imageRepository): void
+    {
         if ($mainImage !== null) {
 
             // // On supprimer l'image principale actuelle

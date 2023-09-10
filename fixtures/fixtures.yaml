@@ -480,3 +480,4 @@ App\Entity\Comment:
     content: "Super commentaire 7 !"
     user: '@user_3'
     trick: '@trick_1'
+    

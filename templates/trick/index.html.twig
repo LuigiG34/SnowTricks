@@ -2,8 +2,7 @@
 
 {% block title %}Trick - {{ trick.name }} {% endblock %}
 
-{% block body %}
-
+{% block css %}
 	{% set mainImage = null %}
 	{% for image in trick.images %}
 		{% if image.isMain %}
@@ -25,21 +24,10 @@
 	</style>
 	{% endif %}
 
-	<style>
-		#bg-img {
-			background-size: cover;
-			background-repeat: no-repeat;
-			background-position: center;
-			height: 600px;
-		}
+	<link rel="stylesheet" href="/assets/css/trick.css">
+{% endblock %}
 
-		.user-img {
-			width: 50px;
-			height: 50px;
-			border-radius: 50px;
-		}
-	</style>
-
+{% block body %}
 
 	<div class="container-fluid d-flex align-items-center justify-content-center flex-column" id="bg-img">
 		<div class="container p-5 d-flex align-items-center justify-content-center">
@@ -144,42 +132,8 @@
 		</div>
 	</div>
 
+{% endblock %}
 
-	<script>
-
-	let comments = document.querySelectorAll('.comment');
-    document.getElementById('loadingSpinner').style.display = 'none';
-
-	function loadMoreComments() { // Show the loading spinner
-        document.getElementById('loadingSpinner').style.display = 'block';
-		comments = document.querySelectorAll('.comment');
-		var offset = comments.length;
-		var slug = this.dataset.trickslug;
-
-		var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/tricks/'+slug+'/'+offset, true);
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-		
-		xhr.onload = function() {
-  			if (xhr.status === 200) {
-    			// Handle the response here
-    			console.log(xhr.responseText);
-				document.getElementById('loadingSpinner').style.display = 'none';
-				const commentsContainer = document.getElementById('commentsContainer');
-                commentsContainer.innerHTML += xhr.responseText;
-
-				if(xhr.responseText === "" || offset > 10){
-					document.getElementById('loadMoreButton').disabled = true;
-				}
-  			} else { // Handle HTTP error
-				console.log(xhr.status);
-                document.getElementById('loadingSpinner').style.display = 'none';
-            }
-		};
-
-		xhr.send();
-    }
-
-    document.getElementById('loadMoreButton').addEventListener('click', loadMoreComments);
-	</script>
+{% block javascripts %}
+	<script src="/assets/js/trick.js"></script>
 {% endblock %}

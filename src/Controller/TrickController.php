@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class TrickController extends AbstractController
 {
 
-    #[Route('/add', name: 'add', methods: ['GET', 'POST'])]
+    #[Route('/add', name: 'add', methods: ['GET', 'POST'], priority: 1)]
     public function addTrick(TrickRepository $repository, TrickService $trickService, Request $request): Response
     {
         $trick = new Trick;
@@ -62,7 +62,7 @@ class TrickController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/{offset}', name: 'show', methods: ['GET', 'POST'], defaults: ['offset' => 0])]
+    #[Route('/{slug}/{offset}', name: 'show', methods: ['GET', 'POST'], defaults: ['offset' => 0], priority: 0)]
     public function index(Trick $trick, Request $request, CommentRepository $commentRepository, int $offset): Response
     {
         $comments = $commentRepository->getCommentPaginator($trick, max(0, $offset));
@@ -107,7 +107,7 @@ class TrickController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{slug}', name: 'edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{slug}', name: 'edit', methods: ['GET', 'POST'], priority: 2)]
     public function updateTrick(Trick $trick, TrickRepository $repository, TrickService $trickService, ImageRepository $imageRepository, Request $request): Response
     {
         $form = $this->createForm(TrickType::class, $trick);
@@ -151,7 +151,8 @@ class TrickController extends AbstractController
     public function deleteTrick(Trick $trick, Request $request, TrickRepository $trickRepository): JsonResponse
     {
         if ($request->isXmlHttpRequest()) {
-            if ($this->isCsrfTokenValid('delete' . $trick->getSlug(), $request->headers->get('X-CSRF-TOKEN'))) {
+            $slug = $trick->getSlug();
+            if ($this->isCsrfTokenValid("delete$slug", $request->headers->get('X-CSRF-TOKEN'))) {
 
                 $images = $trick->getImages();
     

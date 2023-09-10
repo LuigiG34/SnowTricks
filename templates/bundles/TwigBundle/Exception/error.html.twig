@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Error 500{% endblock %}
+
+{% block body %}
+
+<section class="container-fluid p-5 d-flex align-items-center justify-content-center flex-column">
+    <article class="container p-5 d-flex align-items-center justify-content-center flex-column">
+        <div class="p-5 d-flex align-items-center justify-content-center flex-column">
+            <h1 class="text-center">Error 500</h1>
+            <a href="{{ path('app_homepage') }}" class="btn btn-primary">Go back to homepage</a>
+        </div>
+    </article>
+</section>
+
+{% endblock %}

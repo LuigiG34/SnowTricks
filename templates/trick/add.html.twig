@@ -3,31 +3,13 @@
 {% block title %}Trick - Add
 {% endblock %}
 
+{% block css %}
+	<link rel="stylesheet" href="/assets/css/add.css">
+{% endblock %}
+
 {% block body %}
 
-
-	<style>
-		#bg-img {
-			background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/default.jpg');
-			background-size: cover;
-			background-repeat: no-repeat;
-			background-position: center;
-			height: 600px;
-		}
-
-		.w-300-h-200 {
-			width: 300px;
-			height: 200px;
-		}
-
-		.w-302-h-256 {
-			width: 302px;
-			height: 256px;
-		}
-	</style>
-
 	{{ form_start(form) }}
-
 	<div class="container-fluid d-flex align-items-center justify-content-center flex-column" id="bg-img">
 		<div class="d-flex align-items-center justify-content-end w-100">
 			<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModalMainImg">

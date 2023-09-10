@@ -11,5 +11,4 @@ interface TimestampInterface
     public function setCreatedAt(\DateTimeImmutable $date): self;
 
     public function setUpdatedAt(\DateTimeImmutable $date): self;
-
 }

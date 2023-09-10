@@ -12,12 +12,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class VideoController extends AbstractController
 {
     #[Route('/video/delete/{id}', name: 'app_delete_video', methods: ['DELETE'])]
-    public function deleteVideo($id, Request $request, VideoRepository $videoRepository): JsonResponse
+    public function deleteVideo(int $id, Request $request, VideoRepository $videoRepository): JsonResponse
     {
         if ($request->isXmlHttpRequest()) {
             $video = $videoRepository->find($id);
 
-            if ($this->isCsrfTokenValid('delete' . $video->getId(), $request->headers->get('X-CSRF-TOKEN'))) {
+            if ($this->isCsrfTokenValid("delete$id", $request->headers->get('X-CSRF-TOKEN'))) {
                 $videoRepository->remove($video, true);
             }
 

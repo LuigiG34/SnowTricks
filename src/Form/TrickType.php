@@ -29,7 +29,7 @@ class TrickType extends AbstractType
         $this->youTubeUrlToEmbedTransformer = $youTubeUrlToEmbedTransformer;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $trick = $options['data'] ?? null;
         $builder
@@ -115,7 +115,7 @@ class TrickType extends AbstractType
         $builder->get('video_url')->addModelTransformer($this->youTubeUrlToEmbedTransformer);
     }
 
-    public function validateVideoUrl($value, ExecutionContextInterface $context)
+    public function validateVideoUrl(string $value, ExecutionContextInterface $context): void
     {
         // Check if the URL is a valid YouTube URL
         if($value !== null){
@@ -125,7 +125,7 @@ class TrickType extends AbstractType
         }   
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Trick::class,

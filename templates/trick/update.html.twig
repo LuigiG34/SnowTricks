@@ -4,8 +4,7 @@
 	{{ trick.name }}
 {% endblock %}
 
-{% block body %}
-
+{% block css %}
 	{% set mainImage = null %}
 	{% for image in trick.images %}
 		{% if image.isMain %}
@@ -27,38 +26,18 @@
 		</style>
 	{% endif %}
 
-	<style>
-		#bg-img {
-			background-size: cover;
-			background-repeat: no-repeat;
-			background-position: center;
-			height: 600px;
-		}
+	<link rel="stylesheet" href="/assets/css/update.css">
+{% endblock %}
 
-		.w-300-h-200 {
-			width: 300px;
-			height: 200px;
-		}
-
-		.w-302-h-256 {
-			width: 302px;
-			height: 256px;
-		}
-
-		.spinner-border {
-			display: none;
-		}
-	</style>
+{% block body %}
 
 	{{ form_start(form) }}
-
 	<div class="container-fluid d-flex align-items-center justify-content-center flex-column" id="bg-img">
 		<div class="d-flex align-items-center justify-content-end w-100">
 			<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModalMainImg">
 				<i class="bi bi-pencil-fill"></i>
 			</button>
 		</div>
-
 		<div class="modal fade" id="exampleModalMainImg" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -78,8 +57,6 @@
 				</div>
 			</div>
 		</div>
-
-
 		<div class="container p-5 d-flex align-items-center justify-content-center">
 			<section class="p-5 d-flex align-items-center justify-content-center">
 				<div class="p-5 d-flex align-items-center justify-content-center flex-column">
@@ -88,7 +65,6 @@
 			</section>
 		</div>
 	</div>
-
 	<div class="container-fluid p-5">
 		<div class="container">
 			<div class="row">
@@ -104,29 +80,7 @@
 								</div>
 							</div>
 						</div>
-
-
-						<div class="modal fade" id="exampleModalImg{{ image.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Delete Image
-										</h5>
-										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-									</div>
-									<div class="modal-body">
-										Are you sure you want to delete this image ?
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-										<button type="button" class="btn btn-danger delete-image" data-imageid="{{ image.id }}" data-csrftoken="{{ csrf_token('delete' ~ image.id) }}" data-target="#image{{ image.id }}">
-											<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="spinner-{{ image.id }}"></span>
-											Delete
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
+						{% include "_partials/_deleteImage.html.twig" %}
 					{% endif %}
 				{% endfor %}
 				<div class="col-3 d-flex align-items-center justify-content-center gap-5 flex-row">
@@ -151,28 +105,7 @@
 							</div>
 						</div>
 					</div>
-
-					<div class="modal fade" id="exampleModalVideo{{ video.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">Delete Video
-									</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									Are you sure you want to delete this video ?
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-									<button type="button" class="btn btn-danger delete-video" data-videoid="{{ video.id }}" data-csrftoken="{{ csrf_token('delete' ~ video.id) }}" data-target="#video{{ video.id }}">
-										<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="spinner-{{ video.id }}"></span>
-										Delete
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
+					{% include "_partials/_deleteVideo.html.twig" %}
 				{% endfor %}
 				<div class="col-3 d-flex align-items-center justify-content-center gap-5 flex-row">
 					<div class="card bg-light shadow w-302-h-256 d-flex align-items-center justify-content-center flex-column">
@@ -180,7 +113,6 @@
 						<button type="button" class="btn btn-primary my-2" data-bs-toggle="modal" data-bs-target="#exampleModalVideos">
 							<i class="bi bi-plus-square"></i>
 						</button>
-
 						<div class="modal fade" id="exampleModalVideos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -203,8 +135,6 @@
 					</div>
 				</div>
 			</div>
-
-
 			{{ form_row(form.name) }}
 			{{ form_row(form.description) }}
 			{{ form_row(form.category) }}
@@ -216,108 +146,8 @@
 	</div>
 	{{ form_end(form) }}
 
+{% endblock %}
 
-<script>
-	// Delete video via AJAX
-    document.querySelectorAll('.delete-video').forEach(function (button) {
-        button.addEventListener('click', function () {
-            var videoId = this.dataset.videoid;
-            var csrfToken = this.dataset.csrftoken;
-            var targetElementId = this.dataset.target;
-			var modalDelete = document.querySelector('#exampleModalVideo' + videoId)
-			var modalBackdropDelete = document.querySelector('.modal-backdrop')
-			var spinner = document.querySelector('#spinner-' + videoId);
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('DELETE', '/video/delete/' + videoId, true);
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken); // Set the CSRF token as a header
-
-			spinner.style.display = "inline-block";
-
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    if (response.message === 'Video deleted successfully') { // Handle success, e.g., remove the video element from the page
-                        var videoElement = document.querySelector(targetElementId);
-                        if (videoElement) {
-                            videoElement.parentNode.removeChild(videoElement);
-                        }
-						// Remove modal
-						modalDelete.parentNode.removeChild(modalDelete);
-						modalBackdropDelete.parentNode.removeChild(modalBackdropDelete)
-						document.querySelector('body').style.overflow = "auto";
-						alert(response.message);
-
-                    } else { // Handle failure, e.g., show an error message
-						spinner.style.display = "none";
-                        alert('Error: ' + response.message);
-                    }
-                } else { // Handle HTTP error
-					spinner.style.display = "none";
-                    alert('HTTP Error: ' + xhr.status);
-                }
-            };
-
-            xhr.onerror = function () { // Handle network error
-				spinner.style.display = "none";
-                alert('Network Error');
-            };
-
-            // Send the DELETE request
-            xhr.send();
-        });
-    });
-
-	// Delete image via AJAX
-	document.querySelectorAll('.delete-image').forEach(function (button) {
-        button.addEventListener('click', function () {
-            var imageId = this.dataset.imageid;
-            var csrfToken = this.dataset.csrftoken;
-            var targetElementId = this.dataset.target;
-			var modalDelete = document.querySelector('#exampleModalImg' + imageId)
-			var modalBackdropDelete = document.querySelector('.modal-backdrop')
-			var spinner = document.querySelector('#spinner-' + imageId);
-
-			var xhr = new XMLHttpRequest();
-            xhr.open('DELETE', '/image/delete/' + imageId, true);
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken); // Set the CSRF token as a header
-
-			spinner.style.display = "inline-block";
-
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    if (response.message === 'Image deleted successfully') { // Handle success, e.g., remove the image element from the page
-                        var imageElement = document.querySelector(targetElementId);
-                        if (imageElement) {
-                            imageElement.parentNode.removeChild(imageElement);
-                        }
-						// Remove modal
-						modalDelete.parentNode.removeChild(modalDelete);
-						modalBackdropDelete.parentNode.removeChild(modalBackdropDelete)
-						document.querySelector('body').style.overflow = "auto";
-						alert(response.message);
-
-                    } else { // Handle failure, e.g., show an error message
-						spinner.style.display = "none";
-                        alert('Error: ' + response.message);
-                    }
-                } else { // Handle HTTP error
-					spinner.style.display = "none";
-                    alert('HTTP Error: ' + xhr.status);
-                }
-            };
-
-            xhr.onerror = function () { // Handle network error
-				spinner.style.display = "none";
-                alert('Network Error');
-            };
-
-            // Send the DELETE request
-            xhr.send();
-        });
-    });
-</script>
+{% block javascripts %}
+	<script src="/assets/js/update.js"></script>
 {% endblock %}
