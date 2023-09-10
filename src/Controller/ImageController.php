@@ -12,12 +12,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class ImageController extends AbstractController
 {
     #[Route('/image/delete/{id}', name: 'app_delete_image', methods: ['DELETE'])]
-    public function deleteImage($id, Request $request, ImageRepository $imageRepository): JsonResponse
+    public function deleteImage(int $id, Request $request, ImageRepository $imageRepository): JsonResponse
     {
         if ($request->isXmlHttpRequest()) {
             $image = $imageRepository->find($id);
 
-            if ($this->isCsrfTokenValid('delete' . $image->getId(), $request->headers->get('X-CSRF-TOKEN'))) {
+            if ($this->isCsrfTokenValid("delete$id", $request->headers->get('X-CSRF-TOKEN'))) {
     
                 $nameImageBool = file_exists($this->getParameter('images_directory') . $image->getName());
 

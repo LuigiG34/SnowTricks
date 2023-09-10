@@ -1,0 +1,20 @@
+#bg-img {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 600px;
+}
+
+.w-300-h-200 {
+    width: 300px;
+    height: 200px;
+}
+
+.w-302-h-256 {
+    width: 302px;
+    height: 256px;
+}
+
+.spinner-border {
+    display: none!important;
+}

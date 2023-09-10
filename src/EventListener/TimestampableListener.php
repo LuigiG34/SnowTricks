@@ -18,7 +18,7 @@ class TimestampableListener implements EventSubscriber
         ];
     }
 
-    public function prePersist(PrePersistEventArgs $event)
+    public function prePersist(PrePersistEventArgs $event): void
     {
         $entity = $event->getObject();
         if($entity instanceof TimestampInterface) {
@@ -26,7 +26,7 @@ class TimestampableListener implements EventSubscriber
         }
     }
 
-    public function preUpdate(PreUpdateEventArgs $event)
+    public function preUpdate(PreUpdateEventArgs $event): void
     {
         $entity = $event->getObject();
         if($entity instanceof TimestampInterface) {

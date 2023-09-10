@@ -6,11 +6,8 @@
 			Snowtricks -
 			{% block title %}{% endblock %}
 		</title>
-		<style>
-			.logo {
-				width: 100px;
-			}
-		</style>
+		{% block css %}{% endblock %}
+		<link rel="stylesheet" href="/assets/css/style.css">
 		<!-- Option 1: Include in HTML -->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 		<link
