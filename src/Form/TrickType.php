@@ -115,7 +115,7 @@ class TrickType extends AbstractType
         $builder->get('video_url')->addModelTransformer($this->youTubeUrlToEmbedTransformer);
     }
 
-    public function validateVideoUrl(string $value, ExecutionContextInterface $context): void
+    public function validateVideoUrl(?string $value, ExecutionContextInterface $context): void
     {
         // Check if the URL is a valid YouTube URL
         if($value !== null){

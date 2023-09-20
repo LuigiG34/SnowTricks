@@ -97,7 +97,7 @@ class TrickController extends AbstractController
                     $this->addFlash('danger', $error->getMessage());
                 }
             }
-            return $this->redirectToRoute('app_trick', ['slug' => $trick->getSlug()]);
+            return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
         }
 
         return $this->render('trick/index.html.twig', [
